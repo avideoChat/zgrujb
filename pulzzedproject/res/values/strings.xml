@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidpnClient</string>
+    <string name="hello">Hello Android, DemoAppActivity!</string>
+    <string name="settings">Settings</string>
+    <!-- 开始界面 -->
+    <string name="login_text">登陆</string>
+    <string name="register_text">注册</string>
+    
+    <!-- frament -->
+    <string name="contact">联系人</string>
+    <string name="recent">最近</string>
+    <string name="discovery">发现</string>
+    <string name="myinformation">我的</string>
+     <!-- ui组件 -->
+     <string name="group_manager">分组管理</string>
+     <string name="search">搜索</string>
+     <string name="cancel">取消</string>
+     <string name="sort_no_result">哎呀，没有这个好友哦！</string>
+</resources>

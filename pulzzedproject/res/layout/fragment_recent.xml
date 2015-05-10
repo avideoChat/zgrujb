@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     android:background="@color/base_bg"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/common_actionbar"
+        layout="@layout/include_action_bar" />
+<TextView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/recent"
+        />
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="@color/grey">
+  <com.zgrujb.selfdefindui.ClearEditText
+      android:id="@+id/edt_search"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="7"
+      android:hint="@string/search"
+      android:drawableLeft="@drawable/kvv"
+      android:drawableRight="@drawable/edt_del"
+      android:gravity="center_vertical"
+      android:singleLine="true"
+   />
+   <TextView 
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+     android:layout_weight="1"
+    android:gravity="center_vertical"
+    android:text="@string/cancel"
+    android:textColor="@color/white"
+    android:textSize="12sp"
+     />
+   </LinearLayout>
+</LinearLayout>

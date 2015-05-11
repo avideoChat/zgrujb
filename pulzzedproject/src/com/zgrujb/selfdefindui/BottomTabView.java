@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PixelFormat;
@@ -46,6 +47,9 @@ public class BottomTabView extends View {
 			TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics());
 	private Paint mTextPaint;
 	private Rect mTextBound = new Rect();
+	
+	//绘制消息提醒的标志
+	private Boolean drawFlag = false;
 
 	
 	
@@ -114,7 +118,7 @@ public class BottomTabView extends View {
 				/ 2;
 		// 设置icon的绘制范围
 		iconRect = new Rect(left, top, left + bitmapWidth, top + bitmapWidth);
-
+        
 	}
 
 	@Override
@@ -134,7 +138,8 @@ public class BottomTabView extends View {
 		drawSourceText(canvas, alpha);
 		drawTargetText(canvas, alpha);
 	    canvas.drawBitmap(mBitmap, 0, 0,null);
-		
+	    if (drawFlag)
+	       drawCirc(canvas);
 	}
 	
 	
@@ -220,6 +225,29 @@ public class BottomTabView extends View {
 		if (iconRect != null)
 			invalidateView();
 	}
+	
+	private void drawCirc(Canvas canvas){
+		Paint paint = new Paint();
+		paint.setColor(Color.RED);
+		paint.setAntiAlias(true);
+		paint.setDither(true);
+		
+		canvas.drawCircle(iconRect.right, (iconRect.bottom/3), 10, paint);
+		
+	}
+	
+	public void setDrawFlag(Boolean drawFlag){
+
+		this.drawFlag = drawFlag;
+		if (iconRect != null)
+			  invalidateView();
+	}
+	
+	public boolean getDrawFlag(){
+		return drawFlag;
+	}
+	
+	
 
 	private static final String INSTANCE_STATE = "instance_state";
 	private static final String STATE_ALPHA = "state_alpha";

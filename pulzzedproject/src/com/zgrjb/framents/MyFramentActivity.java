@@ -209,6 +209,8 @@ public class MyFramentActivity extends BaseActivity implements EventListener,OnP
 		{
 		case R.id.id_indicator_one:
 			views.get(0).setIconAlpha(1.0f);
+			
+			views.get(0).setDrawFlag(!views.get(0).getDrawFlag());
 			mViewPager.setCurrentItem(0, false);
 			break;
 		case R.id.id_indicator_two:

@@ -3,6 +3,7 @@ package com.zgrjb.adapter;
 import java.util.List;
 
 import com.zgrjb.R;
+import com.zgrjb.adapter.ContanctAdapter.ViewHolder;
 import com.zgrjb.domain.SortModel;
 
 import android.content.Context;
@@ -11,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+public class SortAdapter extends BaseAdapter{
 
-
-public class SortAdapter extends BaseAdapter implements SectionIndexer{
 	private List<SortModel> list = null;
 	private Context mContext;
 	
@@ -58,6 +57,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.sort_list_item, null);
+			
 			viewHolder.sortName = (TextView) view.findViewById(R.id.sort_name);
 			viewHolder.groupName = (TextView) view.findViewById(R.id.sort_group_name);
 			viewHolder.sortHeadPortrait = (ImageView) view.findViewById(R.id.sort_headportrait);
@@ -68,16 +68,18 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 		}
 		
   if (list!=null){
-	if (list.get(position).getRemark().trim().length()>0){
-		viewHolder.sortName.setText(list.get(position).getRemark()+"( "+list.get(position).getName()+" )");
+	if (mContent.getRemark().trim().length()>0){
+		viewHolder.sortName.setText(mContent.getRemark()+"( "+mContent.getName()+" )");
 	}else {
-		viewHolder.sortName.setText(list.get(position).getName());
+		viewHolder.sortName.setText(mContent.getName());
 	}
 	
-	viewHolder.groupName.setText(list.get(position).getGroup());
-	//viewHolder.sortHeadPortrait.setImageBitmap(list.get(position).getHeadPortrait());
+	viewHolder.groupName.setText(mContent.getGroup());
+	//viewHolder.sortHeadPortrait.setImageBitmap(mContent.getHeadPortrait());
 	
   } 
+  
+      
 	return view;
 
 }
@@ -85,55 +87,13 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 
 
 	final static class ViewHolder {
+		
 		TextView sortName;
 		TextView groupName;
 		ImageView sortHeadPortrait;
 	}
 
 
-	/**
-	 * 根据ListView的当前位置获取分类的首字母的Char ascii值
-	 */
-	public int getSectionForPosition(int position) {
-		if (list!=null)
-		  return list.get(position).getSortLetters().charAt(0);
-	    return -1;
-	}
 
-	/**
-	 * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
-	 */
-	public int getPositionForSection(int section) {
-		if (list!=null){
-		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getSortLetters();
-			char firstChar = sortStr.toUpperCase().charAt(0);
-			if (firstChar == section) {
-				return i;
-			}
-		}
-		}
-		return -1;
-	}
-	
-	/**
-	 * 提取英文的首字母，非英文字母用#代替。
-	 * 
-	 * @param str
-	 * @return
-	 */
-	private String getAlpha(String str) {
-		String  sortStr = str.trim().substring(0, 1).toUpperCase();
-		// 正则表达式，判断首字母是否是英文字母
-		if (sortStr.matches("[A-Z]")) {
-			return sortStr;
-		} else {
-			return "#";
-		}
-	}
 
-	@Override
-	public Object[] getSections() {
-		return null;
-	}
 }

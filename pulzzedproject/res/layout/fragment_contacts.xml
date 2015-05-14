@@ -27,7 +27,7 @@
              android:gravity="center_horizontal"
              android:orientation="vertical">
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/contanct_nearby"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher" />
@@ -70,20 +70,38 @@
         android:text="好友分组"
         android:textColor="@color/white"/>
   
-   <com.zgrujb.selfdefindui.PinnedHeaderExpandableListView
-        android:id="@+id/contacts_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="@null"
-        android:divider="#FF000000"
-        android:childDivider="#FF000000"
-        android:childIndicatorLeft="0dp"
-        android:listSelector="@android:color/transparent"
-        android:dividerHeight="1dp"
-        android:groupIndicator="@null"
-        android:scrollbarAlwaysDrawHorizontalTrack="false" 
-       />
+         <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ListView
+            android:id="@+id/contact_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@null" />
+
+        <TextView
+            android:id="@+id/contact_dialog"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:layout_gravity="center"
+            android:background="@drawable/show_head_toast_bg"
+
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30.0dip"
+            android:visibility="invisible" />
+
+        <com.zgrujb.selfdefindui.SideBar
+            android:id="@+id/contact_sidrbar"
+            android:layout_width="30.0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center" />
+    </FrameLayout>
  </LinearLayout>
-   </com.zgrujb.selfdefindui.StickyLayout>        
+ </com.zgrujb.selfdefindui.StickyLayout>        
         
 </RelativeLayout>

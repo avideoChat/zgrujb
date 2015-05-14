@@ -3,11 +3,13 @@ package com.zgrjb.framents;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -25,12 +27,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -38,18 +36,18 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-
 import com.zgrjb.R;
-import com.zgrjb.adapter.ContactListViewAdapter;
+import com.zgrjb.adapter.ContanctAdapter;
 import com.zgrjb.adapter.SortAdapter;
 import com.zgrjb.base.FragmentBase;
+import com.zgrjb.domain.ChildModel;
+import com.zgrjb.domain.GroupModel;
 import com.zgrjb.domain.PinyinComparator;
 import com.zgrjb.domain.SortModel;
 import com.zgrjb.utils.CharacterParser;
 import com.zgrujb.selfdefindui.ClearEditText;
-import com.zgrujb.selfdefindui.PinnedHeaderExpandableListView;
-import com.zgrujb.selfdefindui.PinnedHeaderExpandableListView.OnHeaderUpdateListener;
+import com.zgrujb.selfdefindui.SideBar;
+import com.zgrujb.selfdefindui.SideBar.OnTouchingLetterChangedListener;
 import com.zgrujb.selfdefindui.StickyLayout;
 import com.zgrujb.selfdefindui.StickyLayout.OnGiveUpTouchEventListener;
  /*
@@ -59,12 +57,16 @@ import com.zgrujb.selfdefindui.StickyLayout.OnGiveUpTouchEventListener;
 @TargetApi(Build.VERSION_CODES.FROYO) @SuppressLint("SimpleDateFormat")
 public class ContactFragment extends FragmentBase{
 	
-	private SortAdapter adapter;
+	private ListView contactListView;
+	private SideBar sideBar;
+	private TextView dialog;
+	private ContanctAdapter adapter;
+	private SortAdapter sortAdapter;
 	/**
 	 * 汉字转换成拼音的类
 	 */
 	private CharacterParser characterParser;
-	private List<SortModel> SourceDateList;
+	private List<SortModel> SourceDateList,SortDateList;
 	
 	/**
 	 * 根据拼音来排列ListView里面的数据类
@@ -81,6 +83,8 @@ public class ContactFragment extends FragmentBase{
 		characterParser = CharacterParser.getInstance();
 		pinyinComparator = new PinyinComparator();
 		
+		SourceDateList = filledData(getActivity().getResources().getStringArray(R.array.date));
+		SortDateList = filledData(getActivity().getResources().getStringArray(R.array.date));
 		initView(view,savedInstanceState);
         
 
@@ -90,7 +94,7 @@ public class ContactFragment extends FragmentBase{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		SourceDateList = filledData(getActivity().getResources().getStringArray(R.array.date));
+		//SourceDateList = filledData(getActivity().getResources().getStringArray(R.array.date));
 		super.onActivityCreated(savedInstanceState);
 		 	 
 	}
@@ -136,7 +140,7 @@ public class ContactFragment extends FragmentBase{
 	        WindowManager.LayoutParams lp = this.getActivity().getWindow().getAttributes();  
 	        lp.alpha = bgAlpha; //0.0-1.0  
 	        this.getActivity().getWindow().setAttributes(lp);  
-	    }  
+	 }  
 	 
    private void initView(View v ,final Bundle savedInstanceState){
 	     //弹出分组管理的PopupWindow
@@ -177,8 +181,8 @@ public class ContactFragment extends FragmentBase{
          });
          //搜索内容列表	 
          final ListView lv = (ListView) sortPopupWindow.getContentView().findViewById(R.id.sort_list);
-         adapter = new SortAdapter(this.getActivity(), SourceDateList);
-  	     lv.setAdapter(adapter);
+         sortAdapter = new SortAdapter(this.getActivity(), SortDateList);
+  	     lv.setAdapter(sortAdapter);
   	   
          
          //没有搜索结果的textview
@@ -261,98 +265,51 @@ public class ContactFragment extends FragmentBase{
 			}
 			 
 		 });
-	     //分组列表
-		final PinnedHeaderExpandableListView expandableListView = (PinnedHeaderExpandableListView) v.findViewById(R.id.contacts_list);
-		final ContactListViewAdapter adapter = new ContactListViewAdapter(getActivity());
 
-		
-		expandableListView.setAdapter(adapter);
-		
-		expandableListView.setOnItemLongClickListener(new OnItemLongClickListener(){
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				if(parent instanceof PinnedHeaderExpandableListView){
-					PinnedHeaderExpandableListView mList = (PinnedHeaderExpandableListView)parent;
-					 int childPosition = mList.getPackedPositionChild(mList.getExpandableListPosition(position));//取得child下标标，当选中group时，下标为-1
-					 if(childPosition < 0)
-					   mPopupWindow.showAsDropDown(view,0,-view.getHeight()*2-20);
-					 
-				}
-				return true;
-			}
-      	
-      });
-	
-		expandableListView.setOnGroupClickListener(new OnGroupClickListener(){
-
-			@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) @Override
-			public boolean onGroupClick(ExpandableListView parent, View v,
-					int groupPosition, long id) {
-				
-				 if(parent.isGroupExpanded(groupPosition)){
-		             parent.collapseGroup(groupPosition);
-		         }else{
-		           //第二个参数false表示展开时是否触发默认滚动动画
-		             parent.expandGroup(groupPosition,false);
-		         }
-		         
-		         return true;
-			}
+		 
+		    sideBar = (SideBar) v.findViewById(R.id.contact_sidrbar);
+			dialog = (TextView) v.findViewById(R.id.contact_dialog);
+			sideBar.setTextView(dialog);
 			
-		});
-		
-		expandableListView.setOnChildClickListener(new OnChildClickListener(){
-
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v,
-					int groupPosition, int childPosition, long id) {
-				Toast.makeText(getActivity(),groupPosition+"-"+childPosition+"hello", Toast.LENGTH_SHORT).show();
+			//设置右侧触摸监听
+			sideBar.setOnTouchingLetterChangedListener(new OnTouchingLetterChangedListener() {
 				
-				return false;
-			}
-			
-		});
-		
-		expandableListView.setOnHeaderUpdateListener(new OnHeaderUpdateListener(){
-
-			@Override
-			public View getPinnedHeader() {
-				View headerView = (ViewGroup) getLayoutInflater(savedInstanceState).inflate(R.layout.contacts_list_group, null);
-                
-				headerView.setLayoutParams(new LayoutParams(
-		                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-				
-		        return headerView;
-			}
-			
-			@Override
-			public void updatePinnedHeader(View headerView,
-					int firstVisibleGroupPos) {
-				    
-				    ImageView expandedImage = (ImageView)headerView.findViewById(R.id.contact_list_group_expanded_image);
-				    String firstVisibleGroup = (String) adapter.getGroup(firstVisibleGroupPos);
-			        TextView groupName = (TextView) headerView.findViewById(R.id.group_name);
-			        groupName.setText(firstVisibleGroup);
-			        String firstVisibleGroupState = (String) adapter.getGroupState(firstVisibleGroupPos);
-			        TextView groupState = (TextView) headerView.findViewById(R.id.group_state);
-			        groupState.setText(firstVisibleGroupState);
-			        final int resId = expandableListView.isGroupExpanded(firstVisibleGroupPos) ? R.drawable.minus : R.drawable.plus;
-					expandedImage.setImageResource(resId);
-				 
+				@Override
+				public void onTouchingLetterChanged(String s) {
+					//该字母首次出现的位置
+					int position = adapter.getPositionForSection(s.charAt(0));
+					if(position != -1){
+						contactListView.setSelection(position);
+					}
 					
-			}
+				}
+			});
 			
-		});
+			contactListView = (ListView) v.findViewById(R.id.contact_list);
+			contactListView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					//这里要利用adapter.getItem(position)来获取当前position所对应的对象
+					Toast.makeText(getActivity(), ((SortModel)adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
+				}
+			});
+
+		
+			
+			// 根据a-z进行排序源数据
+			Collections.sort(SourceDateList, pinyinComparator);
+			adapter = new ContanctAdapter(getActivity(), SourceDateList);
+			contactListView.setAdapter(adapter); 
 		//收缩的头部
 		 StickyLayout stickyLayout = (StickyLayout)v.findViewById(R.id.sticky_layout);
 	     stickyLayout.setOnGiveUpTouchEventListener(new OnGiveUpTouchEventListener(){
 
 			@Override
 			public boolean giveUpTouchEvent(MotionEvent event) {
-				if (expandableListView.getFirstVisiblePosition() == 0) {
-		            View view = expandableListView.getChildAt(0);
+				if (contactListView.getFirstVisiblePosition() == 0) {
+		            View view = contactListView.getChildAt(0);
 		            if (view != null && view.getTop() >= 0) {
 		                return true;
 		            }
@@ -361,6 +318,18 @@ public class ContactFragment extends FragmentBase{
 			}
 	    	 
 	     });
+	     //附近的人
+	    final ImageView imgNearby = (ImageView)v.findViewById(R.id.contanct_nearby);
+	    imgNearby.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+			   
+				//startAnimActivity(com.zgrjb.ui.LocationActivity.class);
+				startAnimActivity(com.zgrjb.ui.OnShakeActivity.class);
+			}
+	    	
+	    });
 	     //点击弹出搜索框，并设置背景色
 	     ImageView imgSort = (ImageView)v.findViewById(R.id.search);
 	     imgSort.setOnClickListener(new OnClickListener(){
@@ -419,7 +388,7 @@ public class ContactFragment extends FragmentBase{
            filterDateList = null;  
        } else {  
            filterDateList.clear();  
-           for (SortModel sortModel : SourceDateList) {  
+           for (SortModel sortModel : SortDateList) {  
                String name = sortModel.getName();
                String remark = sortModel.getRemark();
                
@@ -448,6 +417,37 @@ public class ContactFragment extends FragmentBase{
    
    } 
    
+   private List<GroupModel> getGroupData(){
+	   List<GroupModel> data = new ArrayList<GroupModel>();
+	   GroupModel group = null;
+	   for (int i=1;i<20;i++){
+		   group = new GroupModel();
+		   group.setGroupName("asdfg"+i);
+		   group.setState(i+"/"+(i*4));
+		   data.add(group);
+	   }
+	   group = null;
+	   return data;
+   }
+   
+   private Map<String,List<ChildModel>> getChildData(){
+	   Map<String,List<ChildModel>> map = new HashMap<String,List<ChildModel>>();
+	   List<GroupModel> groupList = getGroupData();
+	   List<ChildModel> childList;
+	   ChildModel child;
+	   for (int i=1;i<20;i++){
+		   childList = new ArrayList<ChildModel>();
+		   for (int j=0;j<i*2;j++){
+			   child = new ChildModel();
+			   child.setName("name"+"-"+i+"-"+j);
+			   child.setIntroduction("我是介绍"+"-"+i+"-"+j);
+			   child.setState(j%2==0?"在线":"离线");
+			   childList.add(child);
+		   }
+		   map.put(groupList.get(i-1).getGroupName(), childList);
+	   }
+	   return map;
+   }
    
    private List<String> getData(){
        

@@ -7,6 +7,7 @@ public class SortModel {
 	private String name;   //昵称,
 	private String remark;  //备注，
 	private String group;//分组
+
 	
 	private String sortLetters;  //数据拼音的首字母,排序用
 	

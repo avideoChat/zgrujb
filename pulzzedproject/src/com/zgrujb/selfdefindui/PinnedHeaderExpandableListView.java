@@ -3,6 +3,8 @@ package com.zgrujb.selfdefindui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -12,9 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 
@@ -23,7 +24,8 @@ import android.widget.Toast;
 public class PinnedHeaderExpandableListView extends ExpandableListView implements OnScrollListener {
     private static final String TAG = "PinnedHeaderExpandableListView";
     private static final boolean DEBUG = true;
-
+    
+   
     public interface OnHeaderUpdateListener {
         /**
          * 返回一个view对象即可
@@ -51,42 +53,28 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
     public PinnedHeaderExpandableListView(Context context) {
         super(context);
         initView();
-        initGestureDetector();
+        
     }
 
     public PinnedHeaderExpandableListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
-        initGestureDetector();
+       
     }
 
     public PinnedHeaderExpandableListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView();
-        initGestureDetector();
+       
     }
 
     private void initView() {
         setFadingEdgeLength(0);
         setOnScrollListener(this);
+       
     }
     
-    private void initGestureDetector(){
-    	mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
-
-			@Override
-			public void onLongPress(MotionEvent e) {
-				if(mHeaderView != null && mHeaderView.isLongClickable()) {
-//					final ContextMenuInfo contextMenuInfo = new ExpandableListContextMenuInfo(mFloatingGroupView, getPackedPositionForGroup(mFloatingGroupPosition), mAdapter.getGroupId(mFloatingGroupPosition));
-//					ReflectionUtils.setFieldValue(AbsListView.class, "mContextMenuInfo", FloatingGroupExpandableListView.this, contextMenuInfo);
-//					showContextMenu();
-                    Toast.makeText(getContext(),"BBBBBBBB",Toast.LENGTH_LONG).show();
-                    
-                }
-			}
-		});
-    }
-
+    
     @Override
     public void setOnScrollListener(OnScrollListener l) {
         if (l != this) {
@@ -119,9 +107,11 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
         mHeaderView = listener.getPinnedHeader();
         int firstVisiblePos = getFirstVisiblePosition();
         int firstVisibleGroupPos = getPackedPositionGroup(getExpandableListPosition(firstVisiblePos));
+        //因为默认会取得mHeaderView，也就是说控件一创立就会绘制一个浮动的头部，不回调这个函数，会使第一项只有一个背景色
         listener.updatePinnedHeader(mHeaderView, firstVisibleGroupPos);
         requestLayout();
         postInvalidate();
+        
     }
 
     @Override
@@ -150,7 +140,7 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
         super.dispatchDraw(canvas);
         if (mHeaderView != null) {
             drawChild(canvas, mHeaderView, getDrawingTime());
-        }
+          }
     }
 
     @Override
@@ -159,11 +149,10 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
         int y = (int) ev.getY();
         int pos = pointToPosition(x, y);
         int groupPosition = getPackedPositionGroup(getExpandableListPosition(pos));
-        
+        Toast.makeText(getContext(), ""+groupPosition, Toast.LENGTH_LONG).show();
         if (mHeaderView != null && y >= mHeaderView.getTop() && y <= mHeaderView.getBottom()  && groupPosition>0) {
             if (ev.getAction() == MotionEvent.ACTION_DOWN) {
                 mTouchTarget = getTouchTarget(mHeaderView, x, y);
-               // Toast.makeText(getContext(), ""+groupPosition, Toast.LENGTH_LONG).show();
                 mActionDownHappened = true;
             } else if (ev.getAction() == MotionEvent.ACTION_UP) {
                 View touchTarget = getTouchTarget(mHeaderView, x, y);
@@ -254,7 +243,7 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
                 mHeaderView.layout(0, 0, mHeaderWidth, mHeaderHeight);
             }
         } else {
-            mHeaderView.layout(0, 0, mHeaderWidth, mHeaderHeight);
+               mHeaderView.layout(0, 0, mHeaderWidth, mHeaderHeight);
         }
 
         if (mHeaderUpdateListener != null) {
@@ -272,10 +261,13 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
             int visibleItemCount, int totalItemCount) {
-        if (totalItemCount > 0) {
+    // int firstVisibleGroupPos = getPackedPositionGroup(getExpandableListPosition(firstVisibleItem));
+  
+    	//这个判断条件有bug，即时没有展开，也会绘制头部
+    	 if (totalItemCount > 0) {
             refreshHeader();
         }
-        if (mScrollListener != null) {
+        if (mScrollListener != null ) {
             mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
         }
     }

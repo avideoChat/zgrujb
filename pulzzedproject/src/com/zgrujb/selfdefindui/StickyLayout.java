@@ -29,8 +29,9 @@ public class StickyLayout extends LinearLayout {
     // header的高度  单位：px
     private int mOriginalHeaderHeight;
     private int mHeaderHeight;
-
+    
     private int mStatus = STATUS_EXPANDED;
+   // private int mStatus = STATUS_COLLAPSED;
     public static final int STATUS_EXPANDED = 1;
     public static final int STATUS_COLLAPSED = 2;
 

@@ -2,15 +2,25 @@ package com.zgrjb.framents;
 
  
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.zgrjb.R;
+import com.zgrjb.adapter.RecentAdapter;
 import com.zgrjb.base.FragmentBase;
-import com.zgrujb.selfdefindui.ClearEditText;
+import com.zgrjb.domain.RecentModel;
+
  /*
   * 最近聊天的fragement
   * 桂深负责
@@ -18,8 +28,11 @@ import com.zgrujb.selfdefindui.ClearEditText;
 
 @SuppressLint("SimpleDateFormat")
 public class RecentFragment extends FragmentBase{
-
-	 
+    private ListView lv;
+	//private RecentListView lv;
+	private RecentAdapter adapter;
+	private boolean flag=false;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -69,8 +82,49 @@ public class RecentFragment extends FragmentBase{
 	}
 	
 	 private void init(View v){
-		 final ClearEditText edt= (ClearEditText)v.findViewById(R.id.edt_search);
-        
+		 lv = (ListView)v.findViewById(R.id.recent_lv);
+		 adapter = new RecentAdapter(getActivity(),initData());
+		 lv.setAdapter(adapter);
+		 final List<RecentModel> tempList = adapter.getList();
+		 lv.setOnItemClickListener(new OnItemClickListener(){
+         
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				   
+				    if(tempList.get(position).isVisible()){
+				    	tempList.get(position).setVisible(false);
+				    }else{
+				    	tempList.get(position).setVisible(true);
+				    }
+				    Toast.makeText(getActivity(), tempList.get(position).getNum()+"-"+position, Toast.LENGTH_LONG).show();
+				    adapter.updateListView(tempList);
+				    
+			        
+			}
+			 
+		 });
+		 
+     }
+	 
+	 
+	 
+	 private List<RecentModel> initData(){
+		 List<RecentModel> list = new ArrayList<RecentModel>();
+		 
+		 for (int i=0;i<20;i++){
+			 RecentModel rm = new RecentModel();
+			 rm.setName("aaaaaa"+i);
+			 rm.setContent("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"+i);
+			// rm.setDate("星期六");
+			 rm.setDate("2015-04-28");
+			 rm.setNum(""+i);
+			 rm.setVisible(true);
+			 list.add(rm);
+		 }
+		 
+		 
+		 return list;
 	 }
 	
 

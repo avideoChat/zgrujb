@@ -40,8 +40,7 @@ import com.zgrjb.R;
 import com.zgrjb.adapter.ContanctAdapter;
 import com.zgrjb.adapter.SortAdapter;
 import com.zgrjb.base.FragmentBase;
-import com.zgrjb.domain.ChildModel;
-import com.zgrjb.domain.GroupModel;
+
 import com.zgrjb.domain.PinyinComparator;
 import com.zgrjb.domain.SortModel;
 import com.zgrjb.utils.CharacterParser;
@@ -417,37 +416,7 @@ public class ContactFragment extends FragmentBase{
    
    } 
    
-   private List<GroupModel> getGroupData(){
-	   List<GroupModel> data = new ArrayList<GroupModel>();
-	   GroupModel group = null;
-	   for (int i=1;i<20;i++){
-		   group = new GroupModel();
-		   group.setGroupName("asdfg"+i);
-		   group.setState(i+"/"+(i*4));
-		   data.add(group);
-	   }
-	   group = null;
-	   return data;
-   }
-   
-   private Map<String,List<ChildModel>> getChildData(){
-	   Map<String,List<ChildModel>> map = new HashMap<String,List<ChildModel>>();
-	   List<GroupModel> groupList = getGroupData();
-	   List<ChildModel> childList;
-	   ChildModel child;
-	   for (int i=1;i<20;i++){
-		   childList = new ArrayList<ChildModel>();
-		   for (int j=0;j<i*2;j++){
-			   child = new ChildModel();
-			   child.setName("name"+"-"+i+"-"+j);
-			   child.setIntroduction("我是介绍"+"-"+i+"-"+j);
-			   child.setState(j%2==0?"在线":"离线");
-			   childList.add(child);
-		   }
-		   map.put(groupList.get(i-1).getGroupName(), childList);
-	   }
-	   return map;
-   }
+  
    
    private List<String> getData(){
        

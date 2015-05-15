@@ -1,5 +1,7 @@
 package com.zgrjb.application;
 
+import org.litepal.LitePalApplication;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
@@ -10,7 +12,7 @@ import com.android.volley.toolbox.ImageLoader.ImageCache;
 import android.app.Application;
 import android.graphics.Bitmap;
 
-public class BaseApp extends Application{
+public class BaseApp extends LitePalApplication{
  
 	private RequestQueue requestQueue;
 	public static ImageLoader imageLoader;

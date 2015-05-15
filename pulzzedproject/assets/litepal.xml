@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="myDB"></dbname>
+    <version value="1"></version>
+    <list>
+     <maping class="com.zgrjb.domain.MsgRecord"></maping>
+    </list>
+</litepal>

@@ -407,7 +407,7 @@ public class ContactFragment extends FragmentBase{
     if (filterDateList != null && !(filterDateList.isEmpty())) {  
        // 根据a-z进行排序  
            Collections.sort(filterDateList, pinyinComparator);  
-           adapter.updateListView(filterDateList); 
+           sortAdapter.updateListView(filterDateList); 
            return filterDateList;
       }
       

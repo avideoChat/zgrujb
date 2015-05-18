@@ -7,7 +7,7 @@
     <ImageView 
         android:id="@+id/sort_headportrait"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:src="@drawable/icon"
         android:scaleType="centerCrop"
         android:layout_marginLeft="16dp"
@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/sort_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:singleLine="true"
         android:textSize="12sp"
         android:layout_centerVertical="true"
@@ -24,13 +24,6 @@
         android:layout_weight="1"
      />
      
-    <TextView
-        android:id="@+id/sort_group_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:singleLine="true"
-       android:layout_centerVertical="true"
-      />
+    
 
 </LinearLayout>

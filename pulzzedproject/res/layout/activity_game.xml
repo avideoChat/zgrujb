@@ -4,45 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+   
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/game_clue"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/score"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="@string/game_clue_woman"
+            android:textSize="23sp"
+            android:gravity="center"
+         />
 
-        <TextView
-            android:id="@+id/tvScore"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bestscore"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/tvBestScore"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnNewGame"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/newgame" />
-
-    <FrameLayout
+       <FrameLayout
         android:id="@+id/gameContainer"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -61,10 +34,25 @@
         </com.zgrujb.selfdefindui.AnimLayer>
     </FrameLayout>
 
-    <TextView
-        android:layout_width="fill_parent"
+    <LinearLayout 
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
+        android:orientation="horizontal">
+     <Button
+        android:id="@+id/btnNewGame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:text="@string/game_restart" />
+        <Button
+        android:id="@+id/btnCancelGame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:text="@string/game_cancel" />
+      </LinearLayout>
 </LinearLayout>

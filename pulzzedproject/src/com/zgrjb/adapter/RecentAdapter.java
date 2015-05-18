@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.jauker.widget.BadgeView;
 import com.zgrjb.R;
-import com.zgrjb.domain.RecentModel;
+import com.zgrjb.model.RecentModel;
 
 public class RecentAdapter extends BaseAdapter {
     private List<RecentModel> list;

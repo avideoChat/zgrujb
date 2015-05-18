@@ -3,8 +3,8 @@ package com.zgrujb.selfdefindui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zgrjb.base.GameConfig;
-import com.zgrjb.domain.Card;
+import com.zgrjb.application.GameConfig;
+import com.zgrjb.model.Card;
 
 import android.content.Context;
 import android.util.AttributeSet;

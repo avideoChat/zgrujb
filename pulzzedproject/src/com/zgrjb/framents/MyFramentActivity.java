@@ -5,6 +5,8 @@ import java.util.EventListener;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.zgrjb.R;
 import com.zgrjb.base.BaseActivity;
@@ -24,7 +27,7 @@ import com.zgrujb.selfdefindui.BottomTabView;
 
 
 
-@SuppressLint("SimpleDateFormat")
+@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1) @SuppressLint({ "SimpleDateFormat", "NewApi" })
 public class MyFramentActivity extends BaseActivity implements EventListener,OnPageChangeListener,OnClickListener{
 
 	private ViewPager mViewPager;
@@ -64,11 +67,12 @@ public class MyFramentActivity extends BaseActivity implements EventListener,OnP
 
 			@Override
 			public Fragment getItem(int arg0)
-			{
+			{  
 				return fragments[arg0];
 			}
 		};
 		mViewPager.setAdapter(mAdapter);
+	//	mViewPager.setPageTransformer(true, new MyTransformer());
 		mViewPager.setOnPageChangeListener(this);
 		
 		BottomTabView one = (BottomTabView) findViewById(R.id.id_indicator_one);
@@ -106,34 +110,7 @@ public class MyFramentActivity extends BaseActivity implements EventListener,OnP
 	
 	
 	 
-//	public void onTabSelect(View view) {
-//		switch (view.getId()) {
-//		case R.id.btn_message:
-//			index = 0;
-//			break;
-//		case R.id.btn_contract:
-//			index = 1;
-//			break;
-//		case R.id.btn_discorvey:
-//			index = 2;
-//			break;
-//		case R.id.btn_myinfor:
-//			index = 3;
-//			break;
-//		}
-//		if (currentTabIndex != index) {
-//			FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-//			trx.hide(fragments[currentTabIndex]);
-//			if (!fragments[index].isAdded()) {
-//				trx.add(R.id.fragment_container, fragments[index]);
-//			}
-//			trx.show(fragments[index]).commit();
-//		}
-//		mTabs[currentTabIndex].setSelected(false);
-//	 
-//		mTabs[index].setSelected(true);
-//		currentTabIndex = index;
-//	}
+
 
 	@Override
 	protected void onResume() {
@@ -175,9 +152,19 @@ public class MyFramentActivity extends BaseActivity implements EventListener,OnP
 	 
 	}
 
+	/**
+	 * 此方法是在状态改变的时候调用，其中arg0这个参数有三种状态（0，1，2）。
+	 * arg0 ==1的时辰默示正在滑动，arg0==2的时辰默示滑动完毕了，arg0==0的时辰默示什么都没做。
+	 */
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
+		 if (arg0>0){
+				ContactFragment temp = (ContactFragment)fragments[1];
+				temp.resetSideBar();
+		}
+		 
+		
+		
 		
 	}
 
@@ -191,17 +178,20 @@ public class MyFramentActivity extends BaseActivity implements EventListener,OnP
 
 			left.setIconAlpha(1 - positionOffset);
 			right.setIconAlpha(positionOffset);
-		}
+	  }
 		
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
+//		 if (fragments[arg0] instanceof ContactFragment){
+//				ContactFragment temp = (ContactFragment)fragments[arg0];
+//				 temp.resetSideBar();
+//		}
 		
 	}
 
-	@Override
+    @Override
 	public void onClick(View v) {
 		resetOtherTabs();
 
@@ -218,8 +208,10 @@ public class MyFramentActivity extends BaseActivity implements EventListener,OnP
 			mViewPager.setCurrentItem(1, false);
 			break;
 		case R.id.id_indicator_three:
+			
 			views.get(2).setIconAlpha(1.0f);
 			mViewPager.setCurrentItem(2, false);
+			
 			break;
 		case R.id.id_indicator_four:
 			views.get(3).setIconAlpha(1.0f);

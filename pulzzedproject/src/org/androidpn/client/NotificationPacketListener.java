@@ -28,12 +28,9 @@ import android.util.Log;
  * @author Sehwan Noh (devnoh@gmail.com)
  */
 public class NotificationPacketListener implements PacketListener {
-
     private static final String LOGTAG = LogUtil
             .makeLogTag(NotificationPacketListener.class);
-
     private final XmppManager xmppManager;
-
     public NotificationPacketListener(XmppManager xmppManager) {
         this.xmppManager = xmppManager;
     }
@@ -55,7 +52,8 @@ public class NotificationPacketListener implements PacketListener {
                 //                String notificationTicker = notification.getTicker();
                 String notificationUri = notification.getUri();
                 String notificationImageUri = notification.getImageUri();
-
+                String notificationMediaUri = notification.getMediaUri();
+                String notificationFrom = notification.getFrom();
                 Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
                 intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
                 intent.putExtra(Constants.NOTIFICATION_API_KEY,
@@ -67,11 +65,8 @@ public class NotificationPacketListener implements PacketListener {
                         notificationMessage);
                 intent.putExtra(Constants.NOTIFICATION_URI, notificationUri);
                 intent.putExtra(Constants.NOTIFICATION_IMAGE_URI, notificationImageUri);
-                //                intent.setData(Uri.parse((new StringBuilder(
-                //                        "notif://notification.androidpn.org/")).append(
-                //                        notificationApiKey).append("/").append(
-                //                        System.currentTimeMillis()).toString()));
-
+                intent.putExtra(Constants.NOTIFICATION_MEDIA_URI, notificationMediaUri);
+                intent.putExtra(Constants.NOTIFICATION_FROM, notificationFrom);
                 xmppManager.getContext().sendBroadcast(intent);
                 DeliverConfirmIQ deliverConfirmIQ = new DeliverConfirmIQ();
                 deliverConfirmIQ.setUuid(notificationId);

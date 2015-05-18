@@ -3,8 +3,8 @@ package com.zgrujb.selfdefindui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zgrjb.base.GameConfig;
-import com.zgrjb.domain.Card;
+import com.zgrjb.application.GameConfig;
+import com.zgrjb.model.Card;
 import com.zgrjb.ui.GameActivity;
 
 import android.app.AlertDialog;
@@ -137,8 +137,7 @@ public class GameView extends LinearLayout {
 	public void startGame(){
         
 		GameActivity aty = GameActivity.getGameActivity();
-		aty.clearScore();
-		aty.showBestScore(aty.getBestScore());
+	
 		setInit();
 		setAnswer();
 
@@ -221,7 +220,7 @@ public class GameView extends LinearLayout {
 							cardsMap[x1][y].setNum(9);
 
 							x--;
-							GameActivity.getGameActivity().addScore(1);
+						
 							merge = true;
 							if (merge) {
 								Log.v("Left","Left$$");
@@ -255,7 +254,7 @@ public class GameView extends LinearLayout {
 							cardsMap[x1][y].setNum(9);
 
 							x++;
-							GameActivity.getGameActivity().addScore(1);
+						
 							merge = true;
 					   if (merge) {
 								Log.v("Right","Right$$");
@@ -288,7 +287,7 @@ public class GameView extends LinearLayout {
 							cardsMap[x][y1].setNum(9);
 
 							y--;
-							GameActivity.getGameActivity().addScore(1);
+
 							merge = true;
 							if (merge) {
 								Log.v("Up","Up$$");
@@ -322,7 +321,7 @@ public class GameView extends LinearLayout {
 							cardsMap[x][y1].setNum(9);
 
 							y++;
-							GameActivity.getGameActivity().addScore(1);
+		
 							merge = true;
 							if (merge) {
 								Log.v("Down","Down$$");

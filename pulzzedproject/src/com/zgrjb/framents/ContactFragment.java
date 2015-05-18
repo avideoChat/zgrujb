@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -41,26 +42,28 @@ import com.zgrjb.adapter.ContanctAdapter;
 import com.zgrjb.adapter.SortAdapter;
 import com.zgrjb.base.FragmentBase;
 
-import com.zgrjb.domain.PinyinComparator;
-import com.zgrjb.domain.SortModel;
+import com.zgrjb.model.PinyinComparator;
+import com.zgrjb.model.SortModel;
 import com.zgrjb.utils.CharacterParser;
 import com.zgrujb.selfdefindui.ClearEditText;
 import com.zgrujb.selfdefindui.SideBar;
 import com.zgrujb.selfdefindui.SideBar.OnTouchingLetterChangedListener;
 import com.zgrujb.selfdefindui.StickyLayout;
 import com.zgrujb.selfdefindui.StickyLayout.OnGiveUpTouchEventListener;
+import com.zgrujb.selfdefindui.StickyLayout.OnHeaderHeightChangeListener;
  /*
   * 联系人fragement，暂时未实现
   * 同恺负责
   */
 @TargetApi(Build.VERSION_CODES.FROYO) @SuppressLint("SimpleDateFormat")
 public class ContactFragment extends FragmentBase{
-	
+
 	private ListView contactListView;
 	private SideBar sideBar;
 	private TextView dialog;
 	private ContanctAdapter adapter;
 	private SortAdapter sortAdapter;
+	private  StickyLayout stickyLayout;
 	/**
 	 * 汉字转换成拼音的类
 	 */
@@ -141,25 +144,9 @@ public class ContactFragment extends FragmentBase{
 	        this.getActivity().getWindow().setAttributes(lp);  
 	 }  
 	 
+   @SuppressLint("NewApi") @TargetApi(Build.VERSION_CODES.HONEYCOMB) 
    private void initView(View v ,final Bundle savedInstanceState){
-	     //弹出分组管理的PopupWindow
-	     View popupView = getLayoutInflater(savedInstanceState).inflate(R.layout.contacts_list_popupview, null);
-		 final PopupWindow mPopupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true); 
-		 mPopupWindow.setTouchable(true);
-	     mPopupWindow.setOutsideTouchable(true);
-	     mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-	    
-	     Button btn = (Button)mPopupWindow.getContentView().findViewById(R.id.btn_pop);
-	     btn.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getActivity(), "hello", Toast.LENGTH_SHORT).show();
-				
-				mPopupWindow.dismiss();
-			}
-	    	 
-	     });
+	     
 	     
 	     //弹出搜索框，根据数据切换搜索框下面的内容
 	     final View sortPopupView = getLayoutInflater(savedInstanceState).inflate(R.layout.contacts_list_search, null);
@@ -267,7 +254,20 @@ public class ContactFragment extends FragmentBase{
 
 		 
 		    sideBar = (SideBar) v.findViewById(R.id.contact_sidrbar);
-			dialog = (TextView) v.findViewById(R.id.contact_dialog);
+//		    
+		    sideBar.addOnLayoutChangeListener(new OnLayoutChangeListener(){
+
+				@Override
+				public void onLayoutChange(View v, int left, int top,
+						int right, int bottom, int oldLeft, int oldTop,
+						int oldRight, int oldBottom) {
+					// TODO Auto-generated method stub
+					
+				}
+		    	
+		    });
+		   
+		    dialog = (TextView) v.findViewById(R.id.contact_dialog);
 			sideBar.setTextView(dialog);
 			
 			//设置右侧触摸监听
@@ -302,7 +302,7 @@ public class ContactFragment extends FragmentBase{
 			adapter = new ContanctAdapter(getActivity(), SourceDateList);
 			contactListView.setAdapter(adapter); 
 		//收缩的头部
-		 StickyLayout stickyLayout = (StickyLayout)v.findViewById(R.id.sticky_layout);
+		 stickyLayout = (StickyLayout)v.findViewById(R.id.sticky_layout);
 	     stickyLayout.setOnGiveUpTouchEventListener(new OnGiveUpTouchEventListener(){
 
 			@Override
@@ -310,13 +310,27 @@ public class ContactFragment extends FragmentBase{
 				if (contactListView.getFirstVisiblePosition() == 0) {
 		            View view = contactListView.getChildAt(0);
 		            if (view != null && view.getTop() >= 0) {
-		                return true;
+		                  return true;
 		            }
 		        }
+				
 		        return false;
 			}
 	    	 
 	     });
+	     
+	     stickyLayout.setOnHeaderHeightChangeListener(new OnHeaderHeightChangeListener(){
+	    	 @Override
+	    	 public void HeaderHeightChange(View view,int height,int oldHeight){
+//	    		 Toast.makeText(getActivity(), ""+stickyLayout.getHeaderHeight(), 0).show();
+	    		 if (height>=0){
+	 				     resetSideBar();
+	 			  }
+	    	 }
+	     });
+	     
+	     
+	     
 	     //附近的人
 	    final ImageView imgNearby = (ImageView)v.findViewById(R.id.contanct_nearby);
 	    imgNearby.setOnClickListener(new OnClickListener(){
@@ -427,6 +441,12 @@ public class ContactFragment extends FragmentBase{
 //       data.add("测试数据4");
 //        
        return data;
+   }
+   
+   public void resetSideBar(){
+	   if (dialog!=null && dialog.isShown() ){ 
+		       sideBar.reset();
+	   }
    }
 	
 

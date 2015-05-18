@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.zgrjb.R;
 import com.zgrjb.adapter.RecentAdapter;
 import com.zgrjb.base.FragmentBase;
-import com.zgrjb.domain.RecentModel;
+import com.zgrjb.model.RecentModel;
+import com.zgrjb.ui.UIChatActivity;
 
  /*
   * 最近聊天的fragement
@@ -99,7 +100,7 @@ public class RecentFragment extends FragmentBase{
 				    }
 				    Toast.makeText(getActivity(), tempList.get(position).getNum()+"-"+position, Toast.LENGTH_LONG).show();
 				    adapter.updateListView(tempList);
-				    
+				    startAnimActivity(com.zgrjb.ui.UIChatActivity.class);
 			        
 			}
 			 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.zgrjb.R;
 import com.zgrjb.adapter.ContanctAdapter.ViewHolder;
-import com.zgrjb.domain.SortModel;
+import com.zgrjb.model.SortModel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -59,7 +59,7 @@ public class SortAdapter extends BaseAdapter{
 			view = LayoutInflater.from(mContext).inflate(R.layout.sort_list_item, null);
 			
 			viewHolder.sortName = (TextView) view.findViewById(R.id.sort_name);
-			viewHolder.groupName = (TextView) view.findViewById(R.id.sort_group_name);
+			
 			viewHolder.sortHeadPortrait = (ImageView) view.findViewById(R.id.sort_headportrait);
 			
 			view.setTag(viewHolder);
@@ -74,7 +74,7 @@ public class SortAdapter extends BaseAdapter{
 		viewHolder.sortName.setText(mContent.getName());
 	}
 	
-	viewHolder.groupName.setText(mContent.getGroup());
+	
 	//viewHolder.sortHeadPortrait.setImageBitmap(mContent.getHeadPortrait());
 	
   } 
@@ -89,7 +89,7 @@ public class SortAdapter extends BaseAdapter{
 	final static class ViewHolder {
 		
 		TextView sortName;
-		TextView groupName;
+		
 		ImageView sortHeadPortrait;
 	}
 

@@ -14,7 +14,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
+/**
+ * 联系人列表的字母栏
+ * @author tk
+ *
+ */
 public class SideBar extends View {
 	// 触摸事件
 		private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
@@ -24,16 +28,27 @@ public class SideBar extends View {
 				"W", "X", "Y", "Z", "#" };
 		private int choose = -1;// 选中
 		private Paint paint = new Paint();
+        
 
+		
 		private TextView mTextDialog;
 
 		public void setTextView(TextView mTextDialog) {
 			this.mTextDialog = mTextDialog;
 		}
-
+        //为了修复按下sidebar再滑动时，viewpager会保存sidebar按下的状态
+		public void reset(){
+			setBackgroundDrawable(new ColorDrawable(0x00000000));
+			choose = -1;//
+			invalidate();
+			if (mTextDialog != null) {
+				mTextDialog.setVisibility(View.INVISIBLE);
+			}
+		}
 
 		public SideBar(Context context, AttributeSet attrs, int defStyle) {
 			super(context, attrs, defStyle);
+			
 		}
 
 		public SideBar(Context context, AttributeSet attrs) {
@@ -77,23 +92,22 @@ public class SideBar extends View {
 		@Override
 		public boolean dispatchTouchEvent(MotionEvent event) {
 			final int action = event.getAction();
+			final float x = event.getX();//点击x坐标
 			final float y = event.getY();// 点击y坐标
 			final int oldChoose = choose;
 			final OnTouchingLetterChangedListener listener = onTouchingLetterChangedListener;
 			final int c = (int) (y / getHeight() * b.length);// 点击y坐标所占总高度的比例*b数组的长度就等于点击b中的个数.
 
 			switch (action) {
+			
 			case MotionEvent.ACTION_UP:
-				setBackgroundDrawable(new ColorDrawable(0x00000000));
-				choose = -1;//
-				invalidate();
-				if (mTextDialog != null) {
-					mTextDialog.setVisibility(View.INVISIBLE);
-				}
+				
+				reset();
 				break;
+			
 
 			default:
-				setBackgroundResource(R.drawable.sidebar_background);
+				//setBackgroundResource(R.drawable.sidebar_background);
 				if (oldChoose != c) {
 					if (c >= 0 && c < b.length) {
 						if (listener != null) {

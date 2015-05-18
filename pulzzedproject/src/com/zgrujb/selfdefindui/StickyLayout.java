@@ -21,11 +21,16 @@ public class StickyLayout extends LinearLayout {
     public interface OnGiveUpTouchEventListener {
         public boolean giveUpTouchEvent(MotionEvent event);
     }
+    
+    public interface OnHeaderHeightChangeListener{
+    	public void HeaderHeightChange(View view,int height,int oldHeight);
+    }
 
     private View mHeader;
     private View mContent;
     private OnGiveUpTouchEventListener mGiveUpTouchEventListener;
-
+    private OnHeaderHeightChangeListener mOnHeaderHeightChangeListener;
+    
     // header的高度  单位：px
     private int mOriginalHeaderHeight;
     private int mHeaderHeight;
@@ -96,6 +101,10 @@ public class StickyLayout extends LinearLayout {
     public void setOnGiveUpTouchEventListener(OnGiveUpTouchEventListener l) {
         mGiveUpTouchEventListener = l;
     }
+    
+    public void setOnHeaderHeightChangeListener(OnHeaderHeightChangeListener l) {
+        mOnHeaderHeightChangeListener = l;
+    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
@@ -162,6 +171,9 @@ public class StickyLayout extends LinearLayout {
             }
             mHeaderHeight += deltaY;
             setHeaderHeight(mHeaderHeight);
+            
+           
+         
             break;
         }
         case MotionEvent.ACTION_UP: {
@@ -176,6 +188,7 @@ public class StickyLayout extends LinearLayout {
             }
             // 慢慢滑向终点
             this.smoothSetHeaderHeight(mHeaderHeight, destHeight, 500);
+            mOnHeaderHeightChangeListener.HeaderHeightChange(mHeader,mHeaderHeight,mHeaderHeight);
             break;
         }
         default:

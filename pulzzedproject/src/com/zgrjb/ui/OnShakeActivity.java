@@ -18,11 +18,15 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.zgrjb.R;
 import com.zgrjb.base.BaseActivity;
-import com.zgrjb.domain.LocationModel;
 import com.zgrjb.listener.ShakeListener;
 import com.zgrjb.listener.ShakeListener.OnShakeListener;
+import com.zgrjb.model.LocationModel;
 import com.zgrjb.ui.LocationActivity.MyLocationListenner;
-
+/**
+ * 摇一摇
+ * @author tk
+ *
+ */
 public class OnShakeActivity extends BaseActivity {
 	public static final int RESULT_OK = 1;//附近有人在摇一摇
 	public static final int RESULT_FAILURE = 0;//附近没有人在摇一摇
@@ -93,7 +97,7 @@ public class OnShakeActivity extends BaseActivity {
 	                /*
 	                 * 应该向数据库发起连接，如果有数据返回就跳入地图，否则应该有提示信息
 	                 */
-	                forword( com.zgrjb.ui.LocationActivity.class);
+	                forward( com.zgrjb.ui.LocationActivity.class);
 	               
 	              
 	            }

@@ -37,7 +37,7 @@ import com.baidu.mapapi.utils.SpatialRelationUtil;
 
 import com.zgrjb.R;
 import com.zgrjb.base.BaseActivity;
-import com.zgrjb.domain.Data;
+import com.zgrjb.model.Data;
 
 public class LocationActivity extends BaseActivity {
 
@@ -89,7 +89,7 @@ public class LocationActivity extends BaseActivity {
 					public void onClick(View v) {
 					marker.setTitle("haha")	;
 					mBaiduMap.hideInfoWindow();
-					forword(com.zgrjb.ui.GameActivity.class);
+					forward(com.zgrjb.ui.GameActivity.class);
 					}
 				});
 				LatLng ll = marker.getPosition();

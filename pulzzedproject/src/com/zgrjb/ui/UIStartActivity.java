@@ -87,7 +87,7 @@ public class UIStartActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			switch (arg0.getId()) {
 			case R.id.login:
-				forword(MyFramentActivity.class);
+				forward(MyFramentActivity.class);
 				break;
 			case R.id.register:
 				showShortToast("注册");

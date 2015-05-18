@@ -1,5 +1,7 @@
 package com.zgrjb.ui;
 
+import java.io.IOException;
+
 import com.zgrjb.R;
 import com.zgrjb.base.BaseActivity;
 import com.zgrujb.selfdefindui.AnimLayer;
@@ -7,6 +9,7 @@ import com.zgrujb.selfdefindui.GameView;
 
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -28,14 +31,25 @@ public class GameActivity extends BaseActivity{
 		root = (LinearLayout) findViewById(R.id.container);
 		root.setBackgroundColor(0xfffaf8ef);
 
-		tvScore = (TextView) findViewById(R.id.tvScore);
-		tvBestScore = (TextView) findViewById(R.id.tvBestScore);
+		tvClue = (TextView) findViewById(R.id.game_clue);
+        
 
 		gameView = (GameView) findViewById(R.id.gameView);
 
 		btnNewGame = (Button) findViewById(R.id.btnNewGame);
 		btnNewGame.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) {
 			gameView.startGame();
+		}});
+		
+		btnCancelGame = (Button)findViewById(R.id.btnCancelGame);
+		btnCancelGame.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) {
+			Runtime runtime = Runtime.getRuntime();
+			try {
+				runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+		//		e.printStackTrace();
+			}
 		}});
 		
 		animLayer = (AnimLayer) findViewById(R.id.animLayer);
@@ -50,49 +64,17 @@ public class GameActivity extends BaseActivity{
 		return true;
 	}
 
-	public void clearScore(){
-		score = 0;
-		showScore();
-	}
 
-	public void showScore(){
-		tvScore.setText(score+"");
-	}
 
-	public void addScore(int s){
-		score+=s;
-		showScore();
-		setBestScore();
-    }
-	
-	public void setBestScore(){
-		int maxScore = Math.max(score, getBestScore());
-		saveBestScore(maxScore);
-		showBestScore(maxScore);
-	}
-
-	public void saveBestScore(int s){
-		Editor e = getPreferences(MODE_PRIVATE).edit();
-		e.putInt(SP_KEY_BEST_SCORE, s);
-		e.commit();
-	}
-
-	public int getBestScore(){
-		return getPreferences(MODE_PRIVATE).getInt(SP_KEY_BEST_SCORE, 0);
-	}
-
-	public void showBestScore(int s){
-		tvBestScore.setText(s+"");
-	}
 	
 	public AnimLayer getAnimLayer() {
 		return animLayer;
 	}
 
 	private int score = 0;
-	private TextView tvScore,tvBestScore;
+	private TextView tvClue;
 	private LinearLayout root = null;
-	private Button btnNewGame;
+	private Button btnNewGame,btnCancelGame;
 	private GameView gameView;
 	private AnimLayer animLayer = null;
 
@@ -102,5 +84,5 @@ public class GameActivity extends BaseActivity{
 		return gameActivity;
 	}
 
-	public static final String SP_KEY_BEST_SCORE = "bestScore";
+	
 }

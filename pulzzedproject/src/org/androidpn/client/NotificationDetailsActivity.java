@@ -21,6 +21,7 @@ import com.android.volley.toolbox.ImageLoader.ImageCache;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.zgrjb.application.BaseApp;
+import com.zgrjb.application.BaseConfig;
 
 import android.app.Activity;
 import android.content.Context;
@@ -185,7 +186,7 @@ public class NotificationDetailsActivity extends Activity {
         linearLayout.addView(image);
 
       
-        image.setImageUrl(imageUri, BaseApp.imageLoader);
+        image.setImageUrl(BaseConfig.api.base+"/upload/"+imageUri, BaseApp.imageLoader);
         return linearLayout;
     }
 

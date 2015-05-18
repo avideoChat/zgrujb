@@ -52,7 +52,7 @@ public class Notifier {
     }
 
     public void notify(String notificationId, String apiKey, String title,
-            String message, String uri,String imageUri) {
+            String message, String uri,String imageUri,String mediaUri,String from) {
         Log.d(LOGTAG, "notify()...");
 
         Log.d(LOGTAG, "notificationId=" + notificationId);
@@ -61,6 +61,8 @@ public class Notifier {
         Log.d(LOGTAG, "notificationMessage=" + message);
         Log.d(LOGTAG, "notificationUri=" + uri);
         Log.d(LOGTAG, "notificationimageUri=" + imageUri);
+        Log.d(LOGTAG, "notificationmediaUri=" + mediaUri);
+        Log.d(LOGTAG, "notificationfrom=" + from);
 
         if (isNotificationEnabled()) {
             // Show the toast
@@ -107,6 +109,8 @@ public class Notifier {
             intent.putExtra(Constants.NOTIFICATION_MESSAGE, message);
             intent.putExtra(Constants.NOTIFICATION_URI, uri);
             intent.putExtra(Constants.NOTIFICATION_IMAGE_URI, imageUri);
+            intent.putExtra(Constants.NOTIFICATION_MEDIA_URI, mediaUri);
+            intent.putExtra(Constants.NOTIFICATION_FROM, from);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

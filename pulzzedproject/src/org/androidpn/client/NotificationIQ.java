@@ -35,6 +35,8 @@ public class NotificationIQ extends IQ {
     private String uri;
 
     private String imageUri;
+    private String from;
+    private String  mediaUri;
     public NotificationIQ() {
     }
 
@@ -58,7 +60,26 @@ public class NotificationIQ extends IQ {
         this.id = id;
     }
 
-    public String getApiKey() {
+    
+    public String getMediaUri() {
+		return mediaUri;
+	}
+
+	public void setMediaUri(String mediaUri) {
+		this.mediaUri = mediaUri;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	 
+
+	public String getApiKey() {
         return apiKey;
     }
     

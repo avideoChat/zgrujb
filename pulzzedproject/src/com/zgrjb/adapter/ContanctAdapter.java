@@ -3,7 +3,7 @@ package com.zgrjb.adapter;
 import java.util.List;
 
 import com.zgrjb.R;
-import com.zgrjb.domain.SortModel;
+import com.zgrjb.model.SortModel;
 
 import android.content.Context;
 import android.view.LayoutInflater;

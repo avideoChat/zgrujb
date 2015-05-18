@@ -123,7 +123,12 @@ public class NotificationService extends Service {
             }
         });
     }
-
+     
+    public void startReceiver(){
+    	registerNotificationReceiver();
+       registerConnectivityReceiver();
+       xmppManager.connect();
+    }
     public static NotificationService getNotificationService(){
     	return notificationService;
     }
@@ -193,6 +198,9 @@ public class NotificationService extends Service {
         });
     }
 
+    public void login(String name,String password){
+    	NotificationService.this.getXmppManager().login(name, password);
+    }
     public void disconnect() {
         Log.d(LOGTAG, "disconnect()...");
         taskSubmitter.submit(new Runnable() {
@@ -233,11 +241,13 @@ public class NotificationService extends Service {
 
     private void start() {
         Log.d(LOGTAG, "start()...");
-        registerNotificationReceiver();
-        registerConnectivityReceiver();
-        // Intent intent = getIntent();
+          registerNotificationReceiver();
+          registerConnectivityReceiver();
+//        // Intent intent = getIntent();
         // startService(intent);
+        /////////////
         xmppManager.connect();
+         
     }
 
     private void stop() {

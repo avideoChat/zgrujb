@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+  <include layout="@layout/main_load" />
+    <EditText
+        android:id="@+id/login_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dip"
+        android:layout_marginTop="20dip"
+        android:drawableLeft="@drawable/icon_login_name"
+        android:hint="@string/login_name_hint" />
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dip"
+        android:drawableLeft="@drawable/icon_login_password"
+        android:hint="@string/register_password_hint" />
+
+    <Button
+        android:layout_marginTop="15dip"
+        android:id="@+id/login_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/login_password"
+        android:layout_alignRight="@id/login_password"
+        android:layout_below="@id/login_password"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="0.5"
+        android:text="@string/login_confirm" />
+
+</RelativeLayout>

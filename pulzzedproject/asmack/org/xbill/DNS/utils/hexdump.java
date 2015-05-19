@@ -1,7 +1,7 @@
 // Copyright (c) 1999-2004 Brian Wellington (bwelling@xbill.org)
 
 package org.xbill.DNS.utils;
-
+//-------------------------------------------------------------------------------------------------------------------------------+
 /**
  * A routine to produce a nice looking hex dump
  *

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.text.ClipboardManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -19,6 +19,7 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -26,16 +27,17 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zgrjb.R;
 import com.zgrjb.model.ChatMsgModel;
+import com.zgrjb.ui.UIUserInfoActivity;
 import com.zgrujb.selfdefindui.AnimatedGifDrawable;
 import com.zgrujb.selfdefindui.AnimatedImageSpan;
 
-
-@TargetApi(Build.VERSION_CODES.FROYO) public class ChatMsgViewAdapter extends BaseAdapter {
+public class ChatMsgViewAdapter extends BaseAdapter implements OnClickListener{
 	
 	public static interface IMsgViewType
 	{
@@ -98,18 +100,21 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
     	
     	ChatMsgModel entity = coll.get(position);
     	boolean isComMsg = entity.isComeMsg();
-    	
+    	Log.v(tag, "in getView -- now position: "+position+"/"+coll.size()+" and siComeMsg: "+isComMsg);
     	ViewHolder viewHolder = null;	
 	    if (convertView == null)
 	    {
+	    	  viewHolder = new ViewHolder();
 	    	  if (isComMsg)
 			  {
 				  convertView = mInflater.inflate(R.layout.list_item_chat_left, null);
+				  viewHolder.ivHead = (ImageView) convertView.findViewById(R.id.chat_iv_lefthead);
+				  viewHolder.ivHead.setOnClickListener(this);
 			  }else{
 				  convertView = mInflater.inflate(R.layout.list_item_chat_right, null);
+				  viewHolder.ivHead = (ImageView) convertView.findViewById(R.id.chat_iv_righthead);
 			  }
-
-	    	  viewHolder = new ViewHolder();
+	    	  Log.v(tag, "in getView -- the converView is not exist, url: "+entity.getAudioUrl());
 			  viewHolder.tvSendTime = (TextView) convertView.findViewById(R.id.tv_sendtime);
 			  viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
 			  viewHolder.tvContent = (TextView) convertView.findViewById(R.id.tv_chatcontent);
@@ -119,16 +124,17 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 	    }else{
 	        viewHolder = (ViewHolder) convertView.getTag();
 	    }
-	    
+
+//  	  	viewHolder.ivHead.setBackground(background);
 	    viewHolder.tvSendTime.setText(entity.getDate());
 	    viewHolder.tvUserName.setText(entity.getName());
 	    String url;
+    	Log.v(tag, "in getView -- url: "+entity.getAudioUrl()+" and the tvContent's content is: -"+entity.getText()+"-");
 	    if((url = entity.getAudioUrl()) != null){
 //	    	viewHolder.tvContent.setCompoundDrawablesRelative(null, null, ctx.getResources().getDrawable(R.drawable.ic_audio_sign), null);
 	    	viewHolder.tvContent.setCompoundDrawablesWithIntrinsicBounds(null, null, ctx.getResources().getDrawable(R.drawable.ic_audio_sign), null);
 	    	viewHolder.tvContent.setText("");
 	    	viewHolder.tvContent.setTag(url);
-	    	Log.i("ChatMsgViewAdapter", "url: "+url+" and the tvContent's content is: -"+viewHolder.tvContent.getText()+"-");
 //	    	viewHolder.tvContent.setOnClickListener(new View.OnClickListener() {
 //				
 //				@Override
@@ -139,6 +145,15 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 //			});
 	    }else{
 	    	// 对内容做处理
+	    	//if the absolute text view has a drawable in right, it should be deleted.
+	    	Drawable[] drawables = viewHolder.tvContent.getCompoundDrawables();
+	    		for(Drawable d : drawables){
+	    			if(d != null){
+	    				viewHolder.tvContent.setCompoundDrawables(null, null, null, null);
+	    				break;
+	    			}
+	    		}
+	    	
 	    	SpannableStringBuilder sb = handler(viewHolder.tvContent, entity.getText());
 	    	viewHolder.tvContent.setText(sb);
 	    }
@@ -184,6 +199,7 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 	}
 
     static class ViewHolder { 
+    	public ImageView ivHead;
         public TextView tvSendTime;
         public TextView tvUserName;
         public TextView tvContent;
@@ -261,8 +277,8 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 					// to
 					rightRemoveAnimation(view, position);
 				}
-				coll.remove(position);
-				notifyDataSetChanged();
+//				coll.remove(position);
+//				notifyDataSetChanged();
 			}
 		});
 		popupWindow.update();
@@ -316,7 +332,9 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 			public void onAnimationEnd(Animation animation) {
 //				view.setAlpha(0);
 //				performDismiss(view, position);
-				animation.cancel();
+//				animation.cancel();
+				coll.remove(position);
+				notifyDataSetChanged();
 			}
 		});
 
@@ -338,11 +356,21 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 			public void onAnimationEnd(Animation animation) {
 //				view.setAlpha(0);
 //				performDismiss(view, position);
-				animation.cancel();
+//				animation.cancel();
+				coll.remove(position);
+				notifyDataSetChanged();
 			}
 		});
 
 		view.startAnimation(animation);
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent();
+		intent.putExtra("user_id", "leftID");
+		intent.setClass(ctx, UIUserInfoActivity.class);
+		ctx.startActivity(intent);
 	}
 
 	/**

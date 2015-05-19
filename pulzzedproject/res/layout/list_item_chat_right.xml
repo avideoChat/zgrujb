@@ -24,7 +24,7 @@
 	        
 	        
 	           <ImageView 
-	           android:id="@+id/chat_iv_lefthead" 
+	           android:id="@+id/chat_iv_righthead" 
 	           android:layout_width="52dp"
 		       android:layout_height="52dp"
 	           android:focusable="false" 
@@ -34,7 +34,7 @@
  				
  				<TextView 
 	            android:id="@+id/tv_chatcontent" 
-	            android:layout_toLeftOf="@id/chat_iv_lefthead"
+	            android:layout_toLeftOf="@id/chat_iv_righthead"
 	            android:layout_marginRight="10dp"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -47,13 +47,25 @@
 	            android:clickable="true"
 	            android:onClick="onAudioClick"
 	            android:focusable="true"/>   
-	                 
+	            
+ 				<ProgressBar 
+ 				    android:layout_width="wrap_content"
+ 				    android:layout_height="wrap_content"
+ 				    android:indeterminateDrawable="@drawable/loading"
+ 				    android:layout_toLeftOf="@id/tv_chatcontent"
+ 				    android:visibility="gone"/>
+ 				<ImageView 
+ 				    android:layout_width="wrap_content"
+ 				    android:layout_height="wrap_content"
+ 				    android:background="@drawable/ic_msg_failed"
+ 				    android:layout_toLeftOf="@id/tv_chatcontent"
+ 				    android:visibility="gone"/>
 	                  
 	            <TextView 
 	            android:id="@+id/tv_username" 
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_below="@id/chat_iv_lefthead"
+	            android:layout_below="@id/chat_iv_righthead"
 	            android:layout_alignParentRight="true"
 	            android:layout_toRightOf="@id/tv_chatcontent"
 	            android:textSize="15sp"

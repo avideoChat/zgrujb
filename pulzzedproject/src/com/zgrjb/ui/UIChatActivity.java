@@ -12,11 +12,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,11 +50,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 
 import com.sinaapp.bashell.VoAACEncoder;
 import com.zgrjb.R;
@@ -60,26 +60,26 @@ import com.zgrjb.adapter.ChatMsgViewAdapter;
 import com.zgrjb.adapter.FaceGVAdapter;
 import com.zgrjb.adapter.FaceVPAdapter;
 import com.zgrjb.model.ChatMsgModel;
-
 import com.zgrjb.utils.HttpOperateUtil;
+import com.zgrujb.selfdefindui.DropdownListView;
+import com.zgrujb.selfdefindui.DropdownListView.OnRefreshListenerHeader;
 import com.zgrujb.selfdefindui.HeaderLayout;
 import com.zgrujb.selfdefindui.HeaderLayout.HeaderStyle;
 import com.zgrujb.selfdefindui.HeaderLayout.onRightImageButtonClickListener;
 import com.zgrujb.selfdefindui.MyEditText;
 
 /**
- * 
  * @author gray
  *  CSDN博客http://blog.csdn.net/geniuseoe2012
  *  android开发交流群：200102476
  */
-public class UIChatActivity extends Activity implements OnClickListener, OnCheckedChangeListener, OnLongClickListener{
+public class UIChatActivity extends Activity implements OnClickListener, OnCheckedChangeListener, OnLongClickListener, OnRefreshListenerHeader{
     /** Called when the activity is first created. */
 	private String tag = getClass().getSimpleName();
 	private Button btnSend;
 	private Button btnAudio;
 	private ToggleButton tbChangInput;
-	private ListView mListView;
+	private DropdownListView mListView;
 	private ChatMsgViewAdapter mAdapter;
 	private List<ChatMsgModel> mDataArrays = new ArrayList<ChatMsgModel>();
 	private HeaderLayout hlTitleBar;
@@ -94,7 +94,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 	private MediaPlayer mMediaPlayer;
 
 	private String mRecordFileName;
-	public static String BASE_URL = "http://10.0.35.122:8080/Struts2";
+	public static String BASE_URL = "http://172.16.13.179:8080/Struts2";
 	String URL_UPLOAD_FILE = BASE_URL+"/upload";
 	
 	//------------------------
@@ -103,7 +103,6 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 	private MyEditText etContent;
 	private LinearLayout chat_face_container;//表情布局
 	private ImageView iv_face;//表情图标
-	// 7列3行
 	private int columns = 6;
 	private int rows = 4;
 	private List<View> views = new ArrayList<View>();
@@ -122,12 +121,20 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
         handler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
-				if(msg.what == 1){
-//					Toast.makeText(UIChat.this, "发送成功!", Toast.LENGTH_SHORT).show();
-					sendAudio();
-				}else{
-					Toast.makeText(UIChatActivity.this, "发送失败!", Toast.LENGTH_SHORT).show();
-				}
+				switch (msg.what) {
+    			case 0:
+    				mAdapter.notifyDataSetChanged();
+    				mListView.onRefreshCompleteHeader();
+    				break;
+    			case 1:
+//    				Toast.makeText(UIChatActivity.this, "发送成功!", Toast.LENGTH_SHORT).show();
+    				sendAudio();
+    				break;
+    			default:
+    				Toast.makeText(UIChatActivity.this, "语音发送失败!", Toast.LENGTH_SHORT).show();
+    				break;
+    			}
+				
 				super.handleMessage(msg);
 			}
 		};
@@ -145,6 +152,8 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 				
 			}
 		});
+//    	ivLeftHead = (ImageView) findViewById(R.id.chat_iv_lefthead);
+//    	ivLeftHead.setOnClickListener(this);
     	iv_face = (ImageView) findViewById(R.id.btn_emo);//表情按钮
 		iv_face.setOnClickListener(this);
 		chat_face_container=(LinearLayout) findViewById(R.id.chat_face_container);
@@ -152,7 +161,20 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 		mViewPager.setOnPageChangeListener(new PageChange());
 		mDotsLayout = (LinearLayout) findViewById(R.id.face_dots_container);
 		
-    	mListView = (ListView) findViewById(R.id.listview);
+    	mListView = (DropdownListView) findViewById(R.id.listview);
+    	mListView.setOnRefreshListenerHead(this);
+//		mListView.setOnTouchListener(new OnTouchListener() {
+//			@Override
+//			public boolean onTouch(View arg0, MotionEvent arg1) {
+//				if(arg1.getAction()==MotionEvent.ACTION_DOWN){
+//					if(chat_face_container.getVisibility()==View.VISIBLE){
+//						chat_face_container.setVisibility(View.GONE);
+//					}
+//					hideSoftInputView();
+//				}
+//				return false;
+//			}
+//		});
     	tbChangInput = (ToggleButton) findViewById(R.id.tb_changInput);
     	tbChangInput.setOnCheckedChangeListener(this);
     	btnAudio = (Button) findViewById(R.id.btn_audio);
@@ -161,7 +183,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
     	btnSend = (Button) findViewById(R.id.btn_send);
     	btnSend.setOnClickListener(this);
     	
-    	etContent = (MyEditText) findViewById(R.id.et_sendmessage);
+    	etContent = (MyEditText) findViewById(R.id.et_message);
 		etContent.setOnClickListener(this);
     }
     
@@ -200,7 +222,14 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 	
 	class MyTouchListener implements OnTouchListener {
 		public boolean onTouch(View v, MotionEvent event) {
+			Log.e(tag, "x: "+event.getX()+" -- y: "+event.getY());
 			switch (event.getAction()) {
+//			case MotionEvent.ACTION_DOWN:
+//				if(chat_face_container.getVisibility()==View.VISIBLE){
+//					chat_face_container.setVisibility(View.GONE);
+//				}
+//				hideSoftInputView();
+			
 			case MotionEvent.ACTION_UP:
 				setTalkBtnBackground(false);
 				// TODO 正常放开，接下来一般做以下事情：发送录音文件到服务器
@@ -218,7 +247,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 							if(HttpOperateUtil.uploadFile(URL_UPLOAD_FILE, mRecordFileName)){
 								msg.what = 1;
 							}else{
-								msg.what = 0;
+								msg.what = -1;
 							}
 							handler.sendMessage(msg);
 						}
@@ -228,15 +257,13 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 				break;
 
 			case MotionEvent.ACTION_CANCEL:
-				Log.i(tag, "record cancel!! ");
+				Log.i(tag, "record cancel by action_cancel -------!--------------------------------------! ");
 				setTalkBtnBackground(false);
 				// TODO 异常放开，接下来一般做以下事情：删除录音文件
 				// 停止录音
 				stopRecord();
 				break;
 
-			default:
-				break;
 			}
 			return false;
 		}
@@ -249,7 +276,6 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 	private void InitViewPager() {
 		// 获取页数
 		for (int i = 0; i < getPagerCount(); i++) {
-			Log.i(tag, "initViewPager's get page count "+i);
 			views.add(viewPagerItem(i));
 			LayoutParams params = new LayoutParams(16, 16);
 			mDotsLayout.addView(dotsItem(i), params);
@@ -285,7 +311,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 		FaceGVAdapter mGvAdapter = new FaceGVAdapter(subList, this);
 		gridview.setAdapter(mGvAdapter);
 		gridview.setNumColumns(columns);
-		// 单击表情执行的操作
+		// the operation when clicking the ImageView switch of face
 		gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
@@ -315,9 +341,12 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 			 * */
 			String tempText = "#[" + png + "]#";
 			sb.append(tempText);
+			//change the size of the face image in EditText.
+			Bitmap bitmap = BitmapFactory.decodeStream(getAssets().open(png));
+			bitmap = ThumbnailUtils.extractThumbnail(bitmap, 37, 37);
+			
 			sb.setSpan(
-					new ImageSpan(UIChatActivity.this, BitmapFactory
-							.decodeStream(getAssets().open(png))), sb.length()
+					new ImageSpan(UIChatActivity.this, bitmap), sb.length()
 							- tempText.length(), sb.length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -518,7 +547,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 				
 				File file = new File(fileUrl);
 				if (!file.exists()) {
-//					Toast.makeText(UIChat.this, "没有音乐文件！", Toast.LENGTH_SHORT)
+//					Toast.makeText(UIChatActivity.this, "没有音乐文件！", Toast.LENGTH_SHORT)
 //							.show();
 //					return;
 					String fileName = BASE_URL+"/download/"+fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
@@ -644,13 +673,12 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 	public void onClick(View v) {
 		switch(v.getId())
 		{
-		case R.id.et_sendmessage:
+		case R.id.et_message:
 			if(chat_face_container.getVisibility()==View.VISIBLE){
 				chat_face_container.setVisibility(View.GONE);
 			}
 			break;
 		case R.id.btn_emo:
-			Log.i(tag, "onclick btn_emo getFocus: "+getCurrentFocus());
 			hideSoftInputView();//隐藏软键盘
 			if(chat_face_container.getVisibility()==View.GONE){
 				chat_face_container.setVisibility(View.VISIBLE);
@@ -661,6 +689,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 		case R.id.btn_send:
 			sendText();
 			break;
+		
 		}
 	}
 	@Override
@@ -683,7 +712,6 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 			etContent.requestFocus();
 			Log.i(tag, "not check;  current focus: "+getCurrentFocus());
 		}
-		
 	}
 
 	@Override
@@ -698,5 +726,19 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 
 		return true;
 	}
-
+	@Override
+	public void onRefresh() {
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					sleep(1000);
+					Message msg = handler.obtainMessage(0);
+					handler.sendMessage(msg);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
 }

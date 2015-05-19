@@ -1,15 +1,11 @@
 package com.zgrjb.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.os.Vibrator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
-
-
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -21,7 +17,6 @@ import com.zgrjb.base.BaseActivity;
 import com.zgrjb.listener.ShakeListener;
 import com.zgrjb.listener.ShakeListener.OnShakeListener;
 import com.zgrjb.model.LocationModel;
-import com.zgrjb.ui.LocationActivity.MyLocationListenner;
 /**
  * 摇一摇
  * @author tk

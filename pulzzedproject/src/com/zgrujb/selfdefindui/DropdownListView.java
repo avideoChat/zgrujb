@@ -18,8 +18,7 @@ import android.widget.ProgressBar;
 import com.zgrjb.R;
 
 public class DropdownListView extends ListView implements OnScrollListener {
-
-	private static final String TAG = "listview";
+	private String tag = getClass().getName();
 
 	private final static int RELEASE_To_REFRESH = 0;
 	private final static int PULL_To_REFRESH = 1;
@@ -31,7 +30,13 @@ public class DropdownListView extends ListView implements OnScrollListener {
 	private final static int RATIO = 3;
 
 	private LayoutInflater inflater;
-	private FrameLayout fl;
+	/**
+	 * List的整个头部包括那条线
+	 */
+	private FrameLayout flListHead;
+	/**
+	 * 列表头的一横块
+	 */
 	private LinearLayout headView;
 
 //	private View line;
@@ -55,7 +60,6 @@ public class DropdownListView extends ListView implements OnScrollListener {
 
 	private OnRefreshListenerHeader refreshListenerHeader;
 
-
 	private boolean isRefreshableHeader;
 
 	
@@ -73,10 +77,10 @@ public class DropdownListView extends ListView implements OnScrollListener {
 		setCacheColorHint(context.getResources().getColor(R.color.transparent));
 		inflater = LayoutInflater.from(context);
 		
-		fl = (FrameLayout)inflater.inflate(R.layout.dropdown_lv_head, null);
-		headView = (LinearLayout) fl.findViewById(R.id.drop_down_head);
+		flListHead = (FrameLayout)inflater.inflate(R.layout.dropdown_lv_head, null);
+		headView = (LinearLayout) flListHead.findViewById(R.id.drop_down_head);
 
-		progressBar = (ProgressBar) fl.findViewById(R.id.loading);
+		progressBar = (ProgressBar) flListHead.findViewById(R.id.loading);
 		measureView(headView);
 		
 		
@@ -86,13 +90,12 @@ public class DropdownListView extends ListView implements OnScrollListener {
 		headView.setPadding(0, -1 * headContentHeight, 0, 0);
 		headView.invalidate();
 
-		Log.v("size", "width:" + headContentWidth + " height:"
+		Log.v(tag, "size -- width:" + headContentWidth + " height:"
 				+ headContentHeight);
 
-		addHeaderView(fl, null, false);
+		addHeaderView(flListHead, null, false);
 //		addHeaderView(headView, null, false);
 		setOnScrollListener(this);
-
 
 		state = DONE;
 		isRefreshableHeader = false;
@@ -105,20 +108,20 @@ public class DropdownListView extends ListView implements OnScrollListener {
 
 	public void onScrollStateChanged(AbsListView arg0, int scrollState) {
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-			// 判断滚动到底部
 
 		}
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
-
+		if(state == REFRESHING)
+			return true;
 		if (isRefreshableHeader) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				if (firstItemIndex == 0 && !isRecored) {
 					isRecored = true;
 					startY = (int) event.getY();
-					Log.v(TAG, "在down时候记录当前位置‘");
+					Log.v(tag, "在down时候记录当前位置‘");
 				}
 				break;
 
@@ -132,7 +135,7 @@ public class DropdownListView extends ListView implements OnScrollListener {
 						state = DONE;
 						changeHeaderViewByState();
 
-						Log.v(TAG, "由下拉刷新状态，到done状态");
+						Log.v(tag, "由下拉刷新状态，到done状态");
 					}
 					if (state == RELEASE_To_REFRESH) {
 						state = REFRESHING;
@@ -141,7 +144,7 @@ public class DropdownListView extends ListView implements OnScrollListener {
 //						recoverLine();
 						onRefresh();
 						
-						Log.v(TAG, "由松开刷新状态，到done状态");
+						Log.v(tag, "由松开刷新状态，到done状态");
 					}
 				}
 
@@ -153,7 +156,7 @@ public class DropdownListView extends ListView implements OnScrollListener {
 			case MotionEvent.ACTION_MOVE:
 				int tempY = (int) event.getY();
 				if (!isRecored && firstItemIndex == 0) {
-					Log.v(TAG, "在move时候记录下位置");
+					Log.v(tag, "在move时候记录下位置");
 					isRecored = true;
 					startY = tempY;
 				}
@@ -173,14 +176,14 @@ public class DropdownListView extends ListView implements OnScrollListener {
 							state = PULL_To_REFRESH;
 							changeHeaderViewByState();
 
-							Log.v(TAG, "由松开刷新状态转变到下拉刷新状态");
+							Log.v(tag, "由松开刷新状态转变到下拉刷新状态");
 						}
 						// 一下子推到顶了
 						else if (tempY - startY <= 0) {
 							state = DONE;
 							changeHeaderViewByState();
 
-							Log.v(TAG, "由松开刷新状态转变到done状态");
+							Log.v(tag, "由松开刷新状态转变到done状态");
 						}
 						// 往下拉了，或者还没有上推到屏幕顶部掩盖head的地步
 						else {
@@ -198,14 +201,14 @@ public class DropdownListView extends ListView implements OnScrollListener {
 							isBack = true;
 							changeHeaderViewByState();
 
-							Log.v(TAG, "由done或者下拉刷新状态转变到松开刷新");
+							Log.v(tag, "由done或者下拉刷新状态转变到松开刷新");
 						}
 						// 上推到顶了
 						else if (tempY - startY <= 0) {
 							state = DONE;
 							changeHeaderViewByState();
 
-							Log.v(TAG, "由DOne或者下拉刷新状态转变到done状态");
+							Log.v(tag, "由DOne或者下拉刷新状态转变到done状态");
 						}
 					}
 
@@ -243,7 +246,7 @@ public class DropdownListView extends ListView implements OnScrollListener {
 		case RELEASE_To_REFRESH:
 			progressBar.setVisibility(View.VISIBLE);
 
-			Log.v(TAG, "当前状态，松开刷新");
+			Log.v(tag, "当前状态，松开刷新");
 			break;
 		case PULL_To_REFRESH:
 			progressBar.setVisibility(View.VISIBLE);
@@ -253,7 +256,7 @@ public class DropdownListView extends ListView implements OnScrollListener {
 
 			} else {
 			}
-			Log.v(TAG, "当前状态，下拉刷新");
+			Log.v(tag, "当前状态，下拉刷新");
 			break;
 
 		case REFRESHING:
@@ -262,13 +265,13 @@ public class DropdownListView extends ListView implements OnScrollListener {
 
 			progressBar.setVisibility(View.VISIBLE);
 
-			Log.v(TAG, "当前状态,正在刷新...");
+			Log.v(tag, "当前状态,正在刷新...");
 			break;
 		case DONE:
 			headView.setPadding(0, -1 * headContentHeight, 0, 0);
 
 			progressBar.setVisibility(View.GONE);
-			Log.v(TAG, "当前状态，done");
+			Log.v(tag, "当前状态，done");
 			break;
 		}
 	}
@@ -299,7 +302,10 @@ public class DropdownListView extends ListView implements OnScrollListener {
 		}
 	}
 
-	// 此方法直接照搬自网络上的一个下拉刷新的demo，此处是“估计”headView的width以及height
+	/**
+	 *  此方法直接照搬自网络上的一个下拉刷新的demo，此处是“估计”headView的width以及height
+	 * @param child
+	 */
 	private void measureView(View child) {
 		ViewGroup.LayoutParams p = child.getLayoutParams();
 		if (p == null) {

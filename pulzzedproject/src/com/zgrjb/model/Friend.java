@@ -7,21 +7,18 @@ import com.zgrjb.base.BaseModel;
 public class Friend extends BaseModel {
 	private String createdDate;
 	private String updatedDate;
-	 
-	 private String id;
+	private String id;
+	private String online;
+	private String username;
 
-	 private String online;
-	     private String username;
+	private String password;
 
-	     private String password;
+	private String email;
+	private String gender;
 
-	     private String email;
-	     private String gender;
-
-	     private String name;
-	     private String face;
-	     private String age;
-
+	private String name;
+	private String face;
+	private String age;
 	
 	// default is no login
 	private boolean isLogin = false;

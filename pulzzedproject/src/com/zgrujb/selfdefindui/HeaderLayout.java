@@ -145,6 +145,10 @@ public class HeaderLayout extends LinearLayout {
 			mHtvSubTitle.setVisibility(View.GONE);
 		}
 	}
+	
+	public String getTitleText(){
+		return mHtvSubTitle.getText().toString();
+	}
 
 	public void setTitleAndRightButton(CharSequence title, int backid,String text,
 			onRightImageButtonClickListener onRightImageButtonClickListener) {

@@ -91,4 +91,12 @@ public class BaseConfig {
 		public static final String index			= base + "/index.php";
 		public static final String gomap			= base + "/gomap.php";
 	}
+	
+	public static final class BroadcastTag {
+		public static final String EXIT = "EXIT";
+		public static final String ENTER = "ENTER";
+		public static final String CHAT_ID="CHAT_ID";
+	}
+	
+
 }

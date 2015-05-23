@@ -2,27 +2,55 @@ package com.zgrjb.adapter;
 
 import java.util.List;
 
-import com.zgrjb.R;
-import com.zgrjb.model.SortModel;
-
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.provider.MediaStore.Images;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.zgrjb.R;
+import com.zgrjb.model.SortModel;
+import com.zgrjb.utils.CacheUtil;
 
 
-public class ContanctAdapter extends BaseAdapter implements SectionIndexer{
+
+
+
+public class ContanctAdapter extends BaseAdapter implements SectionIndexer {
 	private List<SortModel> list = null;
 	private Context mContext;
+	
+	private ListView mListView;
+	
+    private final CacheUtil util = CacheUtil.getInstance();
 	
 	public ContanctAdapter(Context mContext, List<SortModel> list) {
 		this.mContext = mContext;
 		this.list = list;
+	}
+	
+
+	public ContanctAdapter(Context mContext, List<SortModel> list,ListView mListView) {
+		this.mContext = mContext;
+		this.list = list;
+		this.mListView = mListView;
+        initCacheUtil();
+	}
+	
+	private void initCacheUtil(){
+		util.init(mContext,"headThum",10);
+		util.setCacheSize(0.125f);
+		util.setHolderView(mListView);
+		util.setWidthAndHeight(70, 70);
 	}
 	
 	/**
@@ -59,26 +87,26 @@ public class ContanctAdapter extends BaseAdapter implements SectionIndexer{
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.contancts_list_item, null);
 			viewHolder.tvLetter = (TextView) view.findViewById(R.id.sort_log);
-			viewHolder.contanctName = (TextView) view.findViewById(R.id.sort_name);
-			
-			viewHolder.contanctHeadPortrait = (ImageView) view.findViewById(R.id.sort_headportrait);
-			
+			viewHolder.contactName = (TextView) view.findViewById(R.id.sort_name);
+			viewHolder.contactHeadPortrait = (ImageView) view.findViewById(R.id.sort_headportrait);
+			viewHolder.contactHeadPortrait.setTag(mContent.getHeadPortraitUrl());
 			view.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
 		
   if (list!=null){
-	if (mContent.getRemark().trim().length()>0){
-		viewHolder.contanctName.setText(mContent.getRemark()+"( "+mContent.getName()+" )");
+	if (mContent.getLocalName()!=null && mContent.getLocalName().trim().length()>0){
+		viewHolder.contactName.setText(mContent.getLocalName());
 	}else {
-		viewHolder.contanctName.setText(mContent.getName());
+		viewHolder.contactName.setText(mContent.getName());
 	}
 	
+	util.loadBitmaps(viewHolder.contactHeadPortrait, mContent.getHeadPortraitUrl());
 	
-	//viewHolder.sortHeadPortrait.setImageBitmap(mContent.getHeadPortrait());
 	
-  } 
+	
+    } 
   
       //根据position获取分类的首字母的Char ascii值
 		int section = getSectionForPosition(position);
@@ -98,9 +126,8 @@ public class ContanctAdapter extends BaseAdapter implements SectionIndexer{
 
 	final static class ViewHolder {
 		TextView tvLetter;
-		
-		TextView contanctName;
-		ImageView contanctHeadPortrait;
+		TextView contactName;
+		ImageView contactHeadPortrait;
 	}
 
 
@@ -149,4 +176,35 @@ public class ContanctAdapter extends BaseAdapter implements SectionIndexer{
 	public Object[] getSections() {
 		return null;
 	}
+
+	
+	
+	public void fluchCache()
+	{   
+		util.fluchCache();
+	}
+	
+	public void cancelAllTasks(){
+		util.cancelAllTasks();
+	}
+	
+	public void deleteCache(){
+		try {
+			util.deleteCache();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	 public void closeCache(){
+		 try {
+			util.closeCache();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 }
+	
+	
 }

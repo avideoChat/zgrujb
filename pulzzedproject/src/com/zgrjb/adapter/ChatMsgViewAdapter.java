@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -26,11 +27,13 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zgrjb.R;
 import com.zgrjb.model.ChatMsgModel;
+import com.zgrjb.utils.CacheUtil;
 import com.zgrujb.selfdefindui.AnimatedGifDrawable;
 import com.zgrujb.selfdefindui.AnimatedImageSpan;
 
@@ -56,7 +59,9 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 	 */
 	protected long mAnimationTime = 150;
     private LayoutInflater mInflater;
-
+    
+    private final CacheUtil util = CacheUtil.getInstance();
+    
     public ChatMsgViewAdapter(Context context, List<ChatMsgModel> coll) {
         ctx = context;
         this.coll = coll;
@@ -101,15 +106,19 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
     	
     	ViewHolder viewHolder = null;	
 	    if (convertView == null)
-	    {
-	    	  if (isComMsg)
+	    {     viewHolder = new ViewHolder();
+	    	 
+	    if (isComMsg)
 			  {
 				  convertView = mInflater.inflate(R.layout.list_item_chat_left, null);
+				  viewHolder.headImg = (ImageView) convertView.findViewById(R.id.chat_iv_righthead);
 			  }else{
 				  convertView = mInflater.inflate(R.layout.list_item_chat_right, null);
+				  viewHolder.headImg = (ImageView) convertView.findViewById(R.id.chat_iv_lefthead);
 			  }
 
-	    	  viewHolder = new ViewHolder();
+	    	  
+	    	  
 			  viewHolder.tvSendTime = (TextView) convertView.findViewById(R.id.tv_sendtime);
 			  viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
 			  viewHolder.tvContent = (TextView) convertView.findViewById(R.id.tv_chatcontent);
@@ -142,7 +151,18 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 	    	SpannableStringBuilder sb = handler(viewHolder.tvContent, entity.getText());
 	    	viewHolder.tvContent.setText(sb);
 	    }
+	    
 	    viewHolder.tvContent.setOnLongClickListener(new popAction(convertView, position, isComMsg));
+	    
+	    String imgUrl = coll.get(position).getHeadPortraitUrl();
+	    if(imgUrl!=null){
+	    	Log.i("msg",imgUrl+"-MSG");
+	    	Bitmap bm = util.getBitmapFromDiskLruCache(imgUrl);
+	    	if(bm!=null){
+	    		Log.i("BMP",viewHolder.headImg+"-BMP");
+	    	  viewHolder.headImg.setImageBitmap(bm);
+	    	}
+	    }
 	    return convertView;
     }
     
@@ -184,6 +204,7 @@ import com.zgrujb.selfdefindui.AnimatedImageSpan;
 	}
 
     static class ViewHolder { 
+    	public ImageView headImg;
         public TextView tvSendTime;
         public TextView tvUserName;
         public TextView tvContent;

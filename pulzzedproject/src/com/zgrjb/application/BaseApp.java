@@ -22,6 +22,7 @@ public class BaseApp extends LitePalApplication{
 	
 	public static BaseApp mInstance;
 	
+	//应该在这里得到自己的信息，全局共享
 	
 	
 	@Override

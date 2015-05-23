@@ -48,5 +48,101 @@
         <item >!@#a我就#!</item>
         <item>我?(){我}:;</item>
     </string-array>
+    
+     <string-array name="sign">
+        <item>你好</item>
+        <item>520，qq</item>
+        <item>sb，心情不好</item>
+        <item>哈哈</item>
+        <item>看灰机</item>
+        <item>我会飞</item>
+        <item>啊啊啊啊 啊 啊</item>
+        <item>据阿里放假哦佛</item>
+        <item>祈求激情</item>
+        <item>阿萨德发</item>
+        <item>打发打发</item>
+        <item>张学友爱陈奕迅</item>
+        <item>据阿里将发动机</item>
+        <item>姐啊分开计量计费</item>
+        <item>电风扇</item>
+        <item>的发发发色</item>
+        <item>穷富i哦</item>
+        <item>还ofi哦啊u</item>
+        <item>我就我</item>
+        <item>我去接哦亲</item>
+        <item>妈妈接哦</item>
+        <item>分i爱哦</item>
+        <item>啊放弃</item>
+        <item>问我去染发</item>
+        <item>啊法尔天天</item>
+        <item>俄日坡起</item>
+        <item>空间发垃圾哦</item>
+        <item>群殴i荣诶去</item>
+        <item>捡垃圾垃圾了</item>
+        <item>去哦i入侵哦i</item>
+        <item>离开flak凉快啦</item>
+        <item>去err而我</item>
+        <item>去而同样</item>
+        <item>相册发疯然而</item>
+        <item>破口了</item>
+        <item>饿了吗</item>
+        <item>明天我们将在</item>
+        <item>动力空间看见啊了火车</item>
+        <item>伍发起人去佰</item>
+        <item>#蔡发疯依林</item>
+        <item>$797发发835344$</item>
+        <item>J啊空呀拉进k</item>
+        <item>怪盗丫的</item>
+        <item >请问阿斯下载</item>
+        <item>阿发放到为彩色灯</item>
+    </string-array>
+    
+      <string-array name="area">
+        <item>日本</item>
+        <item>印度</item>
+        <item>山东</item>
+        <item>山西</item>
+        <item>广东</item>
+        <item>云南大理</item>
+        <item>广东湛江</item>
+        <item>广东广州</item>
+        <item>浙江杭州</item>
+        <item>浙江厦门</item>
+        <item>山东济南</item>
+        <item>西安长安</item>
+        <item>西藏</item>
+        <item>新疆</item>
+        <item>辽宁</item>
+        <item>黑龙江</item>
+        <item>海南三亚</item>
+        <item>海口</item>
+        <item>云浮</item>
+        <item>大新兴</item>
+        <item>大车岗</item>
+        <item>广东肇庆</item>
+        <item>广东惠州</item>
+        <item>广东汕头</item>
+        <item>潮州</item>
+        <item>汕尾</item>
+        <item>北京</item>
+        <item>上海</item>
+        <item>深圳</item>
+        <item>中山</item>
+        <item>南京</item>
+        <item>青岛</item>
+        <item>大同</item>
+        <item>扬州</item>
+        <item>景德镇</item>
+        <item>庐山</item>
+        <item>西双版纳</item>
+        <item>青海湖</item>
+        <item>台湾</item>
+        <item>澳门</item>
+        <item>香港</item>
+        <item>北海</item>
+        <item>南宁</item>
+        <item >周庄</item>
+        <item>罗定</item>
+    </string-array>
 
 </resources>

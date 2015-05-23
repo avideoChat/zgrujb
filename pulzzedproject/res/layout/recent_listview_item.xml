@@ -10,7 +10,8 @@
      android:scaleType="centerCrop"
      android:src="@drawable/icon"
      android:layout_alignParentLeft="true"
-     android:layout_centerVertical="true"
+     android:paddingTop="10dp"
+     android:paddingBottom="10dp"
      android:layout_marginLeft="16dp"
      />
  |<TextView
@@ -18,20 +19,26 @@
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
      android:layout_alignParentTop="true"
-     android:layout_marginTop="3dp"
+     android:layout_marginTop="10dp"
+      android:layout_marginLeft="16dp"
      android:layout_toRightOf="@id/recent_head_portrait"
+     android:layout_alignTop="@id/recent_head_portrait"
      android:textStyle="bold"
      android:singleLine="true"
+     android:textSize="15sp"
      />
- |<TextView
+ <TextView
      android:id="@+id/recent_content"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:layout_below="@id/recent_name"
      android:layout_toRightOf="@id/recent_head_portrait"
-     android:layout_marginTop="3dp"
+     android:layout_marginLeft="16dp"
      android:paddingRight="32dp"
      android:singleLine="true"
+     android:layout_alignParentBottom="true"
+     android:paddingBottom="12dp"
+     android:textSize="15sp"
+   
     />
     <TextView
      android:id="@+id/recent_date"
@@ -39,20 +46,12 @@
      android:layout_height="wrap_content"
      android:layout_alignParentRight="true"
      android:layout_marginRight="8dp"
-     android:layout_marginTop="6dp"
+     android:layout_marginTop="10dp"
      android:layout_alignParentTop="true"
      android:singleLine="true"
-    />
+     android:textSize="15sp"
+   />
     
-    <View 
-     android:id="@+id/recent_dot"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_below="@id/recent_date"
-     android:layout_alignParentRight="true"
-     android:layout_marginRight="13dp"
-     android:layout_marginTop="1dp"
-     android:layout_alignRight="@id/recent_date"
-     />
+ 
 
 </RelativeLayout>

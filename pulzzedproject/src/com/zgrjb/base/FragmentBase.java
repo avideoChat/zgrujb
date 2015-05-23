@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.zgrjb.R;
 import com.zgrjb.application.BaseApp;
+import com.zgrjb.application.BaseConfig.BroadcastTag;
+import com.zgrjb.model.SortModel;
 import com.zgrujb.selfdefindui.HeaderLayout;
 import com.zgrujb.selfdefindui.HeaderLayout.HeaderStyle;
 import com.zgrujb.selfdefindui.HeaderLayout.onLeftImageButtonClickListener;
@@ -141,6 +143,20 @@ public abstract class FragmentBase extends Fragment {
 	
 	public void startAnimActivity(Class<?> cla) {
 		getActivity().startActivity(new Intent(getActivity(), cla));
+	}
+	
+	public void startActivityWithString(Class<?> clazz,String str){
+		Intent intent = new Intent();
+		intent.putExtra(BroadcastTag.ENTER, str);
+		intent.setClass(getActivity(), clazz);
+		getActivity().startActivity(intent);
+	}
+	public void startActivityWithUserInfo(Class<?> clazz,SortModel s){
+		Intent intent = new Intent();
+//		intent.putExtra(BroadcastTag.ENTER, s.getInfo());
+		intent.putExtra(BroadcastTag.ENTER, s);
+		intent.setClass(getActivity(), clazz);
+		getActivity().startActivity(intent);
 	}
 	
 }

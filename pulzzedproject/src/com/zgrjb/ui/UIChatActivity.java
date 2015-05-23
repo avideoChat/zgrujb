@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -23,6 +24,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Editable;
@@ -53,15 +55,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-
 import com.sinaapp.bashell.VoAACEncoder;
 import com.zgrjb.R;
 import com.zgrjb.adapter.ChatMsgViewAdapter;
 import com.zgrjb.adapter.FaceGVAdapter;
 import com.zgrjb.adapter.FaceVPAdapter;
+import com.zgrjb.application.BaseConfig.BroadcastTag;
 import com.zgrjb.model.ChatMsgModel;
-
+import com.zgrjb.model.LastMsgRecord;
+import com.zgrjb.model.LocalUserInfo;
+import com.zgrjb.model.MsgRecord;
 import com.zgrjb.utils.HttpOperateUtil;
+import com.zgrjb.utils.LastMsgRecordDBUtil;
+import com.zgrjb.utils.MsgDBUtils;
 import com.zgrujb.selfdefindui.HeaderLayout;
 import com.zgrujb.selfdefindui.HeaderLayout.HeaderStyle;
 import com.zgrujb.selfdefindui.HeaderLayout.onRightImageButtonClickListener;
@@ -108,6 +114,19 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 	private int rows = 4;
 	private List<View> views = new ArrayList<View>();
 	private List<String> staticFacesList;
+	private final MsgDBUtils utils = MsgDBUtils.getInstance();
+	private final LastMsgRecordDBUtil lastUtils = LastMsgRecordDBUtil.getInstance();
+	
+	/**
+	 * 广播管理器，当退出聊天界面时，向最近回话发送广播，使当前会话置顶
+	 */
+	private LocalBroadcastManager mLocalBroadcastManager;
+	
+	private Intent intent;
+	
+	private LocalUserInfo info;
+	private LastMsgRecord lmr;
+	private ChatMsgModel cmm;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,8 +136,11 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
         initStaticFaces();
         initView();
         InitViewPager();
-        initData();
-        
+        if(utils.loardAllByChatId(info.getId()+"").size()>0){
+        	initDataFromDB();
+        }else{
+            initData();
+        }      
         handler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -134,17 +156,20 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
     }
     
     public void initView()
-    {
+    {   intent = getIntent();
+        info = (LocalUserInfo) intent.getExtras().getSerializable(BroadcastTag.ENTER);
     	hlTitleBar = (HeaderLayout) findViewById(R.id.common_actionbar);
     	hlTitleBar.init(HeaderStyle.TITLE_DOUBLE_IMAGEBUTTON);
-    	hlTitleBar.setTitleAndRightImageButton("chat", R.drawable.icon_home, new onRightImageButtonClickListener() {
+    	hlTitleBar.setDefaultTitle( info.getLocalName()==null?info.getName():info.getLocalName());
+    	hlTitleBar.setTitleAndRightImageButton(hlTitleBar.getTitleText(), R.drawable.icon_home, new onRightImageButtonClickListener() {
 			
 			@Override
 			public void onClick() {
-				Log.i(tag, "you press the rightButton of titlebar");
+				Log.i(tag, "you press the rightButton of titlebar-"+intent.getStringExtra(BroadcastTag.ENTER));
 				
 			}
 		});
+    	
     	iv_face = (ImageView) findViewById(R.id.btn_emo);//表情按钮
 		iv_face.setOnClickListener(this);
 		chat_face_container=(LinearLayout) findViewById(R.id.chat_face_container);
@@ -163,9 +188,30 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
     	
     	etContent = (MyEditText) findViewById(R.id.et_sendmessage);
 		etContent.setOnClickListener(this);
+		
+		mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+		
     }
     
     private final static int COUNT = 8;
+    
+    public void initDataFromDB(){
+    	
+    	for(MsgRecord mr:utils.loardAllByChatId(info.getId()+"")){
+    		ChatMsgModel m = new ChatMsgModel();
+    		m.setChatId(mr.getChatId());
+    		m.setDate(mr.getTime());
+    		m.setText(mr.getContent());
+    		//发送者是对方就设为真，接收到消息sender是对方，发送消息sender是自己
+    		m.setIsComMeg(mr.getSender().equals(info.getLocalName())?true:false);
+    		m.setName(mr.getSender());
+    		m.setHeadPortraitUrl(info.getHeadPortraitUrl());
+    		mDataArrays.add(m);
+    	}
+    	mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
+		mListView.setAdapter(mAdapter);
+    }
+    
     public void initData()
     {
 
@@ -182,10 +228,11 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
     		ChatMsgModel entity = new ChatMsgModel();
     		entity.setDate(dataArray[i]);
     		if (i % 2 == 0)
-    		{
-    			entity.setName("小黑");
+    		{   entity.setHeadPortraitUrl(info.getHeadPortraitUrl());
+    			entity.setName(info.getLocalName());
     			entity.setIsComMeg(true);
     		}else{
+    			entity.setHeadPortraitUrl("http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg");
     			entity.setName("人马");
     			entity.setIsComMeg(false);
     		}
@@ -451,7 +498,7 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 			}
 		}
 	}
-	private void sendText()
+	private ChatMsgModel sendText()
 	{
 		String contString = etContent.getText().toString();
 		if (contString.length() > 0)
@@ -461,14 +508,16 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 			entity.setName("人马");
 			entity.setIsComMeg(false);
 			entity.setText(contString);
-			
+			entity.setChatId(info.getId()+"");
 			mDataArrays.add(entity);
 			mAdapter.notifyDataSetChanged();
 			
 			etContent.setText("");
 			
 			mListView.setSelection(mListView.getCount() - 1);
+			return entity;
 		}
+		return null;
 	}
 	private void sendAudio(){
 		ChatMsgModel entity = new ChatMsgModel();
@@ -659,7 +708,15 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 			}
 			break;
 		case R.id.btn_send:
-			sendText();
+			ChatMsgModel m = sendText();
+			MsgRecord mr = new MsgRecord();
+			mr.setChatId(m.getChatId());
+			mr.setContent(m.getText());
+			mr.setTime(m.getDate());
+			mr.setReceiver(info.getLocalName());
+			//应该从数据库中获取自己的信息
+			mr.setSender("人马");
+			utils.insert(mr);
 			break;
 		}
 	}
@@ -699,4 +756,28 @@ public class UIChatActivity extends Activity implements OnClickListener, OnCheck
 		return true;
 	}
 
+	@Override
+	protected void onResume() {
+		
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		ChatMsgModel c = mDataArrays.get(mDataArrays.size()-1);
+		LastMsgRecord l = new LastMsgRecord();
+		l.setContent(c.getText());
+		l.setTime(c.getDate());
+		l.setHeadPortraitUrl(c.getHeadPortraitUrl());
+		l.setName(hlTitleBar.getTitleText());
+		l.setUnReadNum(0);
+		l.setChatId(info.getId()+"");
+		lastUtils.insert(l);
+		//c.setName(hlTitleBar.getTitleText());
+		Intent intent = new Intent(BroadcastTag.EXIT);
+	    intent.putExtra(BroadcastTag.CHAT_ID, l);
+	    mLocalBroadcastManager.sendBroadcast(intent);
+	    super.onPause();
+	}
+     
 }

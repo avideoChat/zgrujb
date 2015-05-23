@@ -21,6 +21,7 @@ public class RecentModel {
 	public void setNum(String num) {
 		this.num = num;
 	}
+	
 	public boolean isVisible() {
 		return isVisible;
 	}

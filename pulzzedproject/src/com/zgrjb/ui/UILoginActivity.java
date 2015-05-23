@@ -32,7 +32,7 @@ import com.zgrjb.base.BaseActivity;
 import com.zgrjb.base.BaseAuth;
 import com.zgrjb.base.BaseMessage;
 import com.zgrjb.base.BaseUi;
-import com.zgrjb.framents.MyFramentActivity;
+import com.zgrjb.fragments.MyFramentActivity;
 import com.zgrjb.model.Customer;
 import com.zgrjb.model.Friend;
 import com.zgrujb.selfdefindui.InfiniteLoopViewPager;

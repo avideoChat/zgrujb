@@ -58,17 +58,7 @@
          android:src="@drawable/gnl"
          android:background="@color/grey" 
         />
-   
-     
-   
-     <TextView
-        android:id="@+id/head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey" 
-        android:paddingLeft="16dp"
-        android:text="好友分组"
-        android:textColor="@color/white"/>
+
   
          <FrameLayout
         android:layout_width="fill_parent"

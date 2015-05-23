@@ -22,21 +22,25 @@
         android:layout_height="fill_parent"
          android:layout_weight="1"
         android:orientation="horizontal">
+        <!-- android:src="@drawable/icon" -->
     <ImageView 
         android:id="@+id/sort_headportrait"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/icon"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon" 
         android:scaleType="centerCrop"
         android:layout_marginLeft="16dp"
-        android:layout_centerVertical="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+         android:layout_gravity="center_vertical"
+        
         />
     <TextView
         android:id="@+id/sort_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:singleLine="true"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:gravity="center_vertical"
         android:layout_marginLeft="16dp"
         android:layout_weight="1"

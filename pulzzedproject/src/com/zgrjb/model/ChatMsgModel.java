@@ -1,16 +1,40 @@
 
 package com.zgrjb.model;
 
-public class ChatMsgModel {
-    private static final String TAG = ChatMsgModel.class.getSimpleName();
+import java.io.Serializable;
 
-    private String name;
+import android.graphics.Bitmap;
+
+public class ChatMsgModel implements Serializable{
+    private static final String TAG = ChatMsgModel.class.getSimpleName();
+    
+    
+    private String headPortraitUrl;//头像
+    private String name;//备注
     private String date;
     private String audioUrl = null;
     private String text;
-    private boolean isComMeg = true;
+    private String chatId;//会话id,即对方id号，由服务器传过来
+   
+    
+    
+    
+	public String getChatId() {
+		return chatId;
+	}
+	public void setChatId(String chatId) {
+		this.chatId = chatId;
+	}
 
-    public String getName() {
+	private boolean isComMeg = true;
+
+    public String getHeadPortraitUrl() {
+		return headPortraitUrl;
+	}
+	public void setHeadPortraitUrl(String headPortraitUrl) {
+		this.headPortraitUrl = headPortraitUrl;
+	}
+	public String getName() {
         return name;
     }
     public void setName(String name) {

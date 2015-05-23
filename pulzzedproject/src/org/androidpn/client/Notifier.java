@@ -54,7 +54,7 @@ public class Notifier {
     public void notify(String notificationId, String apiKey, String title,
             String message, String uri,String imageUri,String mediaUri,String from) {
         Log.d(LOGTAG, "notify()...");
-
+//插入数据库
         Log.d(LOGTAG, "notificationId=" + notificationId);
         Log.d(LOGTAG, "notificationApiKey=" + apiKey);
         Log.d(LOGTAG, "notificationTitle=" + title);

@@ -24,6 +24,9 @@
             android:label="@string/app_name" >
             
         </activity>
+        <activity
+            android:name="com.zgrjb.ui.UIUserInfoActivity"
+            android:label="@string/app_name" />
         
         <activity
             android:name="com.zgrjb.ui.UIChatActivity"
@@ -50,7 +53,7 @@
             android:label="Notification Settings" >
         </activity>
         <activity
-            android:name="com.zgrjb.framents.MyFramentActivity"
+            android:name="com.zgrjb.fragments.MyFramentActivity"
             android:label="Notification Settings" >
         </activity>
         <activity

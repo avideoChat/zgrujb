@@ -11,41 +11,36 @@ import org.litepal.crud.DataSupport;
 
 public class MsgRecord extends DataSupport{
 private int id;//主键
-private int sender;//发送者
-private int receiver;//接收者
-private int chatId;//会话id
+private String sender;//发送者本地备注
+private String receiver;//接收者本地备注
+private String chatId;//会话id,即对方id号，由服务器传过来
 private String content;//内容
-private Date time;//时间
-private boolean isRead;//可能会修改，初步定为未读信息的标志
+private String time;//时间
 
-public boolean isRead() {
-	return isRead;
-}
-public void setRead(boolean isRead) {
-	this.isRead = isRead;
-}
+
+
 public int getId() {
 	return id;
 }
 public void setId(int id) {
 	this.id = id;
 }
-public int getSender() {
+public String getSender() {
 	return sender;
 }
-public void setSender(int sender) {
+public void setSender(String sender) {
 	this.sender = sender;
 }
-public int getReceiver() {
+public String getReceiver() {
 	return receiver;
 }
-public void setReceiver(int receiver) {
+public void setReceiver(String receiver) {
 	this.receiver = receiver;
 }
-public int getChatId() {
+public String getChatId() {
 	return chatId;
 }
-public void setChatId(int chatId) {
+public void setChatId(String chatId) {
 	this.chatId = chatId;
 }
 public String getContent() {
@@ -54,17 +49,17 @@ public String getContent() {
 public void setContent(String content) {
 	this.content = content;
 }
-public Date getTime() {
+public String getTime() {
 	return time;
 }
-public void setTime(Date time) {
+public void setTime(String time) {
 	this.time = time;
 }
 @Override
 public String toString() {
 	return "MsgRecord [id=" + id + ", sender=" + sender + ", receiver="
 			+ receiver + ", chatId=" + chatId + ", content=" + content
-			+ ", time=" + time + ", isRead=" + isRead + "]";
+			+ ", time=" + time + "]";
 }
 
 }

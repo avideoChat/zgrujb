@@ -23,7 +23,7 @@ import com.zgrjb.application.BaseConfig;
 import com.zgrjb.base.BaseActivity;
 import com.zgrjb.base.BaseMessage;
 import com.zgrjb.base.BaseUi;
-import com.zgrjb.framents.MyFramentActivity;
+import com.zgrjb.fragments.MyFramentActivity;
 import com.zgrujb.selfdefindui.InfiniteLoopViewPager;
 /*
  * 登陆注册轮播图

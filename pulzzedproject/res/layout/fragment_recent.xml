@@ -8,7 +8,18 @@
     <include
         android:id="@+id/common_actionbar"
         layout="@layout/include_action_bar" />
-     <ListView
+    <!--  -->
+    <TextView 
+        android:id="@+id/recent_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:text="@string/recent_empty"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        />   
+        <ListView
          android:id="@+id/recent_lv"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"

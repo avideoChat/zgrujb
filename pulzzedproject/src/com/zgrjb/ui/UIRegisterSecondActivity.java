@@ -44,7 +44,7 @@ import com.zgrjb.base.BaseActivity;
 import com.zgrjb.base.BaseMessage;
 import com.zgrjb.base.BaseTask;
 import com.zgrjb.base.BaseUi;
-import com.zgrjb.framents.MyFramentActivity;
+import com.zgrjb.fragments.MyFramentActivity;
 import com.zgrjb.utils.AndroidClass;
 import com.zgrjb.utils.UploadUtil;
 import com.zgrujb.selfdefindui.CImageView;

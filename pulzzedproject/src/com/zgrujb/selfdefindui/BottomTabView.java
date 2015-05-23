@@ -80,6 +80,7 @@ public class BottomTabView extends View {
 						
 						break;
 					case R.styleable.BottomTabView_color:
+						//设置图标颜色，只要修改了mColor文字和图标会变为同样的颜色
 						mColor = a.getColor(attr, 0x45C01A);
 						break;
 					case R.styleable.BottomTabView_text:
@@ -97,6 +98,7 @@ public class BottomTabView extends View {
 				a.recycle();
 				mTextPaint = new Paint();
 				mTextPaint.setTextSize(mTextSize);
+				//文字颜色,可以无视，
 				mTextPaint.setColor(0xff555555);
 				mTextPaint.setAntiAlias(true);
 				// 得到text绘制范围

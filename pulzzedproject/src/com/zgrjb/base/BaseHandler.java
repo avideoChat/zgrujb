@@ -6,7 +6,7 @@ import org.androidpn.demoapp.DemoAppActivity;
 
 import com.zgrjb.application.BaseApp;
 import com.zgrjb.application.BaseConfig;
-import com.zgrjb.framents.MyFramentActivity;
+import com.zgrjb.fragments.MyFramentActivity;
 import com.zgrjb.ui.UILoginActivity;
 import com.zgrjb.ui.UISlashActivity;
 import com.zgrjb.ui.UIStartActivity;

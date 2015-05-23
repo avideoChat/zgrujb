@@ -15,7 +15,9 @@ public class MsgDBUtils {
 	public static MsgDBUtils getInstance(){
 		return instance;
 	}
-	
+	private MsgDBUtils(){
+		
+	}
     
      public SQLiteDatabase createDB(){
     	 SQLiteDatabase db = Connector.getDatabase();
@@ -43,19 +45,16 @@ public class MsgDBUtils {
       * @param chatIds
       * @return
       */
-     public List<MsgRecord> searchByChatId(int chatId){
+     public List<MsgRecord> searchByChatId(String chatId){
       return DataSupport.where("chatId=?",""+chatId).order("time asc")
     		            .limit(10).offset(10).find(MsgRecord.class);
      }
      
-     public List<MsgRecord> loardAllByChatId(int chatId){
+     public List<MsgRecord> loardAllByChatId(String chatId){
     	 return DataSupport.where("chatId=?",""+chatId)
     			           .order("time asc").find(MsgRecord.class);
      }
-     //有待商榷，可以改进
-     public int countUnReadMsg(int chatId){
-    	 return DataSupport.where("chatId=? and isRead=false",""+chatId).count(MsgRecord.class);
-     }
+     
      
      public MsgRecord getOne(){
     	 return DataSupport.find(MsgRecord.class, 1);

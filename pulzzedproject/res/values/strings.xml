@@ -38,5 +38,6 @@
      <string name="action_settings">设置</string>
      <!-- 会话 -->
       <string name="copy">复制</string>
-    <string name="delete">删除</string>
+      <string name="delete">删除</string>
+      <string name="recent_empty">没有任何最近会话哦！</string>
 </resources>

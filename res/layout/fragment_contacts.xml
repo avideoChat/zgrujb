@@ -8,7 +8,7 @@
         android:id="@+id/common_actionbar"
         layout="@layout/include_action_bar" />
    
- <com.zgrujb.selfdefindui.StickyLayout
+ <com.zgrjb.selfdefindui.StickyLayout
         android:id="@+id/sticky_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,13 +95,13 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.zgrujb.selfdefindui.SideBar
+        <com.zgrjb.selfdefindui.SideBar
             android:id="@+id/contact_sidrbar"
             android:layout_width="30.0dip"
             android:layout_height="fill_parent"
             android:layout_gravity="right|center" />
     </FrameLayout>
  </LinearLayout>
- </com.zgrujb.selfdefindui.StickyLayout>        
+ </com.zgrjb.selfdefindui.StickyLayout>        
         
 </RelativeLayout>

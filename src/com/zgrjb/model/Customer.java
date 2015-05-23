@@ -13,7 +13,7 @@ public class Customer extends BaseModel {
 	 private String id;
 
 	 private String online;
-	     private String username;
+	     private String username;//ni
 
 	     private String password;
 

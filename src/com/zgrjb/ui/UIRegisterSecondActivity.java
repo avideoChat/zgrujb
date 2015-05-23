@@ -33,9 +33,9 @@ import com.zgrjb.R;
 import com.zgrjb.application.BaseConfig;
 import com.zgrjb.base.BaseMessage;
 import com.zgrjb.base.BaseUi;
+import com.zgrjb.selfdefindui.CImageView;
 import com.zgrjb.utils.AndroidClass;
 import com.zgrjb.utils.UploadUtil;
-import com.zgrujb.selfdefindui.CImageView;
 
 /*
  * 登陆注册轮播图

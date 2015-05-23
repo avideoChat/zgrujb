@@ -1,76 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tab="http://schemas.android.com/apk/res/com.zgrjb"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-<include layout="@layout/main_load" />
-    <LinearLayout
-        android:id="@+id/main_bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="52dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/btn_message"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/top_bar"
-                android:drawableTop="@drawable/tab_message_btn"
-                android:onClick="onTabSelect"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                 android:textSize="12sp" />
-
-            
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/btn_contract"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/top_bar"
-                android:drawableTop="@drawable/tab_contact_btn"
-                android:onClick="onTabSelect"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                 android:textSize="12sp" />
-
-             
-        </RelativeLayout>
-
-       
-        <Button
-            android:id="@+id/btn_myinfor"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/top_bar"
-            android:drawableTop="@drawable/tab_myinfor_btn"
-            android:onClick="onTabSelect"
-            android:paddingBottom="2dip"
-            android:paddingTop="7dip"
-            android:scaleType="matrix"
-             android:textSize="12sp" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/main_bottom" />
-
-</RelativeLayout>
+    
+    <android.support.v4.view.ViewPager  
+        android:id="@+id/id_viewpager"  
+        android:layout_width="fill_parent"  
+        android:layout_height="0dp"  
+        android:layout_weight="1" 
+         >
+        </android.support.v4.view.ViewPager>  
+    
+    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="60dp"  
+        android:background="@drawable/tabbg" 
+        android:orientation="horizontal" >  
+  
+      <com.zgrjb.selfdefindui.BottomTabView 
+            android:id="@+id/id_indicator_one"  
+            android:layout_width="0dp"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1"  
+            android:padding="5dp"  
+           tab:icon="@drawable/icon_home"  
+           tab:text="@string/recent"  
+           tab:text_size="12sp" />  
+  
+        <com.zgrjb.selfdefindui.BottomTabView  
+            android:id="@+id/id_indicator_two"  
+            android:layout_width="0dp"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1"  
+            android:padding="5dp"  
+           tab:icon="@drawable/icon_chat_home"  
+           tab:text="@string/contact"  
+           tab:text_size="12sp" />  
+  
+      
+  
+        <com.zgrjb.selfdefindui.BottomTabView
+            android:id="@+id/id_indicator_three"  
+            android:layout_width="0dp"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1"  
+            android:padding="5dp"  
+           tab:icon="@drawable/icon_me"  
+           tab:text="@string/myinformation"  
+           tab:text_size="12sp" />  
+    
+    </LinearLayout>  
+  
+</LinearLayout>

@@ -19,7 +19,7 @@ import com.zgrjb.R;
 import com.zgrjb.adapter.InfiniteLoopViewPagerAdapter;
 import com.zgrjb.base.BaseActivity;
 import com.zgrjb.framents.MyFramentActivity;
-import com.zgrujb.selfdefindui.InfiniteLoopViewPager;
+import com.zgrjb.selfdefindui.InfiniteLoopViewPager;
 /*
  * 登陆注册轮播图
  * 辉明负责

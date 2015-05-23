@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -15,6 +17,7 @@ import com.zgrjb.application.BaseConfig;
 import com.zgrjb.base.BaseAuth;
 import com.zgrjb.base.FragmentBase;
 import com.zgrjb.model.Customer;
+import com.zgrjb.ui.UIUpdateInforActivity;
 
 /*
  * 我的fragment暂时未实现
@@ -28,6 +31,7 @@ public class MyInformationFragment extends FragmentBase {
 	private TextView userage_tv = null;
 	private TextView usergender_tv = null;
 
+	private Button updateInfor_btn = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -55,6 +59,15 @@ public class MyInformationFragment extends FragmentBase {
 		username_tv.setText(customer.getUsername());
 		userage_tv.setText(customer.getAge());
 		usergender_tv.setText(customer.getGender());
+		updateInfor_btn = (Button) findViewById(R.id.updateinfor);
+		updateInfor_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				startAnimActivity(UIUpdateInforActivity.class);
+			}
+		});
 	}
 
 	private boolean hidden;

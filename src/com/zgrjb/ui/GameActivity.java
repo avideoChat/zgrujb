@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import com.zgrjb.R;
 import com.zgrjb.base.BaseActivity;
-import com.zgrujb.selfdefindui.AnimLayer;
-import com.zgrujb.selfdefindui.GameView;
+import com.zgrjb.selfdefindui.AnimLayer;
+import com.zgrjb.selfdefindui.GameView;
 
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;

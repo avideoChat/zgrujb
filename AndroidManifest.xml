@@ -36,6 +36,10 @@
             android:label="" >
         </activity>
         <activity
+            android:name=".ui.UIUpdateInforActivity"
+            android:label="" >
+        </activity>
+        <activity
             android:name=".ui.UITalkingActivity"
             android:label="" >
         </activity>

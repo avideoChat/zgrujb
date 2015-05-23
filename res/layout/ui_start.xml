@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     tools:context=".MyFramentActivity" >
 
-    <com.zgrujb.selfdefindui.InfiniteLoopViewPager
+    <com.zgrjb.selfdefindui.InfiniteLoopViewPager
 		android:id="@+id/viewpager"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" />

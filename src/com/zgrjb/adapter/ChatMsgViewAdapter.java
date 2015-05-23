@@ -31,8 +31,8 @@ import android.widget.TextView;
 
 import com.zgrjb.R;
 import com.zgrjb.model.ChatMsgModel;
-import com.zgrujb.selfdefindui.AnimatedGifDrawable;
-import com.zgrujb.selfdefindui.AnimatedImageSpan;
+import com.zgrjb.selfdefindui.AnimatedGifDrawable;
+import com.zgrjb.selfdefindui.AnimatedImageSpan;
 
 
 @TargetApi(Build.VERSION_CODES.FROYO) 

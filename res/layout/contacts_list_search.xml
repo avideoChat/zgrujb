@@ -14,7 +14,7 @@
     android:orientation="horizontal"
     >
  
-  <com.zgrujb.selfdefindui.ClearEditText
+  <com.zgrjb.selfdefindui.ClearEditText
       android:id="@+id/edt_search"
       android:layout_width="0dp"
       android:layout_height="wrap_content"

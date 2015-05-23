@@ -53,19 +53,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-
 import com.sinaapp.bashell.VoAACEncoder;
 import com.zgrjb.R;
 import com.zgrjb.adapter.ChatMsgViewAdapter;
 import com.zgrjb.adapter.FaceGVAdapter;
 import com.zgrjb.adapter.FaceVPAdapter;
 import com.zgrjb.model.ChatMsgModel;
-
+import com.zgrjb.selfdefindui.HeaderLayout;
+import com.zgrjb.selfdefindui.MyEditText;
+import com.zgrjb.selfdefindui.HeaderLayout.HeaderStyle;
+import com.zgrjb.selfdefindui.HeaderLayout.onRightImageButtonClickListener;
 import com.zgrjb.utils.HttpOperateUtil;
-import com.zgrujb.selfdefindui.HeaderLayout;
-import com.zgrujb.selfdefindui.HeaderLayout.HeaderStyle;
-import com.zgrujb.selfdefindui.HeaderLayout.onRightImageButtonClickListener;
-import com.zgrujb.selfdefindui.MyEditText;
 
 /**
  * 

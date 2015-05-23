@@ -45,13 +45,13 @@ import com.zgrjb.base.FragmentBase;
 import com.zgrjb.model.Friend;
 import com.zgrjb.model.PinyinComparator;
 import com.zgrjb.model.SortModel;
+import com.zgrjb.selfdefindui.ClearEditText;
+import com.zgrjb.selfdefindui.SideBar;
+import com.zgrjb.selfdefindui.StickyLayout;
+import com.zgrjb.selfdefindui.SideBar.OnTouchingLetterChangedListener;
+import com.zgrjb.selfdefindui.StickyLayout.OnGiveUpTouchEventListener;
+import com.zgrjb.selfdefindui.StickyLayout.OnHeaderHeightChangeListener;
 import com.zgrjb.utils.CharacterParser;
-import com.zgrujb.selfdefindui.ClearEditText;
-import com.zgrujb.selfdefindui.SideBar;
-import com.zgrujb.selfdefindui.SideBar.OnTouchingLetterChangedListener;
-import com.zgrujb.selfdefindui.StickyLayout;
-import com.zgrujb.selfdefindui.StickyLayout.OnGiveUpTouchEventListener;
-import com.zgrujb.selfdefindui.StickyLayout.OnHeaderHeightChangeListener;
  /*
   * 联系人fragement，暂时未实现
   * 同恺负责
@@ -93,7 +93,7 @@ public class ContactFragment extends FragmentBase{
 	 
 		SourceDateList = filledData(friendsnames);
 		SortDateList = filledData(friendsnames);
-		 
+	 
 		initView(view,savedInstanceState);
         
 
@@ -402,6 +402,7 @@ public class ContactFragment extends FragmentBase{
 			sortModel.setName(date.get(i));
 			sortModel.setRemark(date.get(i));
 			sortModel.setGroup(date.get(i));
+		 
 			//汉字转换成拼音
 			String pinyin = characterParser.getSelling(date.get(i));
 			String sortString = pinyin.substring(0, 1).toUpperCase();

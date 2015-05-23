@@ -237,14 +237,11 @@ containing a value of this type.
         public static final int btnCancelGame=0x7f090044;
         public static final int btnNewGame=0x7f090043;
         public static final int btn_audio=0x7f09009a;
-        public static final int btn_contract=0x7f090079;
         public static final int btn_delete=0x7f09006c;
         public static final int btn_delete_all=0x7f09006d;
         public static final int btn_emo=0x7f090099;
         public static final int btn_insert=0x7f09006a;
         public static final int btn_insert_all=0x7f09006b;
-        public static final int btn_message=0x7f090078;
-        public static final int btn_myinfor=0x7f09007a;
         public static final int btn_search=0x7f09006f;
         public static final int btn_search_all=0x7f09006e;
         public static final int btn_send=0x7f09009b;
@@ -289,7 +286,6 @@ containing a value of this type.
         public static final int face_text=0x7f09005e;
         public static final int face_viewpager=0x7f090046;
         public static final int fillInIntent=0x7f090035;
-        public static final int fragment_container=0x7f09007b;
         public static final int gameContainer=0x7f090040;
         public static final int gameView=0x7f090041;
         public static final int game_clue=0x7f09003f;
@@ -307,6 +303,10 @@ containing a value of this type.
         public static final int icon1=0x7f090006;
         public static final int icon2=0x7f090007;
         public static final int icon_menu_presenter=0x7f090039;
+        public static final int id_indicator_one=0x7f090079;
+        public static final int id_indicator_three=0x7f09007b;
+        public static final int id_indicator_two=0x7f09007a;
+        public static final int id_viewpager=0x7f090078;
         public static final int input=0x7f090008;
         public static final int inputArea=0x7f090023;
         public static final int inputExtractEditText=0x7f090024;
@@ -324,8 +324,7 @@ containing a value of this type.
         public static final int login_confirm=0x7f0900a1;
         public static final int login_name=0x7f09009f;
         public static final int login_password=0x7f0900a0;
-        public static final int mainLayout=0x7f090076;
-        public static final int main_bottom=0x7f090077;
+        public static final int mainLayout=0x7f090077;
         public static final int main_load_bar=0x7f09008f;
         public static final int menu=0x7f09000b;
         public static final int message=0x7f09000c;
@@ -368,7 +367,7 @@ containing a value of this type.
         public static final int selectTextMode=0x7f09002a;
         public static final int selectedIcon=0x7f090011;
         public static final int send=0x7f090095;
-        public static final int sendb=0x7f090075;
+        public static final int sendb=0x7f090076;
         public static final int smallIcon=0x7f090032;
         public static final int sort_cancel=0x7f090051;
         public static final int sort_headportrait=0x7f090056;
@@ -401,10 +400,11 @@ containing a value of this type.
         public static final int tv_show=0x7f090069;
         public static final int tv_username=0x7f09007f;
         public static final int up=0x7f090037;
-        public static final int user_age=0x7f090073;
+        public static final int updateinfor=0x7f090072;
+        public static final int user_age=0x7f090074;
         public static final int user_face_image=0x7f090071;
-        public static final int user_gender=0x7f090074;
-        public static final int user_name=0x7f090072;
+        public static final int user_gender=0x7f090075;
+        public static final int user_name=0x7f090073;
         public static final int viewpager=0x7f0900af;
         public static final int widget_frame=0x7f09001d;
     }
@@ -445,6 +445,7 @@ containing a value of this type.
         public static final int ui_registersecond=0x7f030021;
         public static final int ui_slash=0x7f030022;
         public static final int ui_start=0x7f030023;
+        public static final int ui_updateinfor=0x7f030024;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -499,6 +500,9 @@ containing a value of this type.
         public static final int search=0x7f0a0016;
         public static final int settings=0x7f0a0002;
         public static final int sort_no_result=0x7f0a0018;
+        /**  myinformationframent 
+         */
+        public static final int updateinfor=0x7f0a0020;
     }
     public static final class style {
         public static final int ActionBar=0x7f0b0003;

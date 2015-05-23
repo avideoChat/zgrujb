@@ -14,14 +14,10 @@ import android.widget.Toast;
 
 import com.zgrjb.R;
 import com.zgrjb.application.BaseApp;
-import com.zgrujb.selfdefindui.HeaderLayout;
-import com.zgrujb.selfdefindui.HeaderLayout.HeaderStyle;
-import com.zgrujb.selfdefindui.HeaderLayout.onLeftImageButtonClickListener;
-import com.zgrujb.selfdefindui.HeaderLayout.onRightImageButtonClickListener;
- /*提供fragement公共的方法
-  * 
-  * 
-  */
+import com.zgrjb.selfdefindui.HeaderLayout;
+import com.zgrjb.selfdefindui.HeaderLayout.HeaderStyle;
+import com.zgrjb.selfdefindui.HeaderLayout.onLeftImageButtonClickListener;
+import com.zgrjb.selfdefindui.HeaderLayout.onRightImageButtonClickListener;
  
  
 public abstract class FragmentBase extends Fragment {

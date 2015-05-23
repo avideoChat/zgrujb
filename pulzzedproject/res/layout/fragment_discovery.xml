@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/theme_bg_color"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/common_actionbar"
+        layout="@layout/include_action_bar" />
+   
+   <TextView 
+    android:id="@+id/tv_show"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/discovery"
+    />
+   
+   <LinearLayout 
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <Button 
+           android:id="@+id/btn_insert"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="插入单条"
+           />
+         <Button 
+           android:id="@+id/btn_insert_all"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="插入多条"
+           />
+           <Button 
+           android:id="@+id/btn_delete"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="删除单条"
+           />      
+           <Button 
+           android:id="@+id/btn_delete_all"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="删除多条"
+           /> 
+           <Button 
+           android:id="@+id/btn_search_all"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="显示所有"
+           />      
+          <Button 
+           android:id="@+id/btn_search"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="显示"
+           />                 
+       
+   </LinearLayout>
+   
+</LinearLayout>

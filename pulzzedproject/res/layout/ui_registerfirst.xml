@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+     
+    <EditText        
+         android:layout_marginTop="20dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/icon_login_name"
+        android:id="@+id/register_name"
+        android:hint="@string/register_name_hint"
+         />
+    <EditText
+        android:hint="@string/register_password_hint"
+        android:layout_below="@id/register_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/icon_login_password"
+        android:id="@+id/register_password"
+         />
+    <EditText
+        android:hint="@string/register_passwordfirmcon_hint"
+        android:layout_below="@id/register_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/icon_login_password"
+        android:id="@+id/register_password_confirm"
+         />
+    <LinearLayout 
+         android:layout_below="@id/register_password_confirm"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@id/register_password"
+        android:layout_alignRight="@id/register_password"
+        >
+        
+       
+        <Button 
+            android:layout_marginRight="20dip"         
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
+            android:id="@+id/register_return_first"
+            android:text="@string/register_return"
+            />
+        <Button 
+             android:text="@string/register_next"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
+            android:id="@+id/register_next_first"
+            />
+        
+    </LinearLayout>
+
+</RelativeLayout>

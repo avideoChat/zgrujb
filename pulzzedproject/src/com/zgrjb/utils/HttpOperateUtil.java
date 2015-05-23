@@ -57,8 +57,10 @@ public class HttpOperateUtil {
 			httpURLConnection.setRequestProperty("Content-Type",
 					"multipart/form-data;boundary=" + boundary);
 			httpURLConnection.setRequestProperty("filename", filename);
+			Log.v(tag, "HttpURLConnection has setted...");
 			DataOutputStream dos = new DataOutputStream(
 					httpURLConnection.getOutputStream());
+			Log.v(tag, "http get the inputstream: "+dos);
 			dos.writeBytes(twoHyphens + boundary + end);
 			dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\"; filename=\""
 					+ filename
@@ -103,7 +105,7 @@ public class HttpOperateUtil {
 			e.printStackTrace();
 			// setTitle(e.getMessage());
 		}
-
+		Log.i(tag, "the file failed to upload --");
 		return false;
 	}
 

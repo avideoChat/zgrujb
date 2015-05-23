@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tab="http://schemas.android.com/apk/res/com.zgrjb"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <android.support.v4.view.ViewPager  
+        android:id="@+id/id_viewpager"  
+        android:layout_width="fill_parent"  
+        android:layout_height="0dp"  
+        android:layout_weight="1" 
+         >
+        </android.support.v4.view.ViewPager>  
+    
+    <LinearLayout  
+        android:layout_width="fill_parent"  
+        android:layout_height="60dp"  
+        android:background="@drawable/tabbg" 
+        android:orientation="horizontal" >  
+  
+      <com.zgrjb.selfdefindui.BottomTabView 
+            android:id="@+id/id_indicator_one"  
+            android:layout_width="0dp"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1"  
+            android:padding="5dp"  
+           tab:icon="@drawable/icon_home"  
+           tab:text="@string/recent"  
+           tab:text_size="12sp" />  
+  
+        <com.zgrjb.selfdefindui.BottomTabView  
+            android:id="@+id/id_indicator_two"  
+            android:layout_width="0dp"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1"  
+            android:padding="5dp"  
+           tab:icon="@drawable/icon_chat_home"  
+           tab:text="@string/contact"  
+           tab:text_size="12sp" />  
+  
+      
+  
+        <com.zgrjb.selfdefindui.BottomTabView
+            android:id="@+id/id_indicator_three"  
+            android:layout_width="0dp"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1"  
+            android:padding="5dp"  
+           tab:icon="@drawable/icon_me"  
+           tab:text="@string/myinformation"  
+           tab:text_size="12sp" />  
+    
+    </LinearLayout>  
+  
+</LinearLayout>

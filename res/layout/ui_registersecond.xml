@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+ <include layout="@layout/main_load" />
+    <com.zgrjb.selfdefindui.CImageView
+        android:layout_marginTop="20dip"
+        android:id="@+id/register_face"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="35dip"
+        android:src="@drawable/face" />
+
+    <EditText
+        android:id="@+id/register_age"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_face"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dip"
+        android:hint="@string/register_age_hint"
+        
+        android:inputType="number" 
+        
+        />
+    <EditText
+        android:id="@+id/register_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_age"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dip"
+        android:hint="@string/register_email_hint"
+        android:inputType="number" />
+
+    <RadioGroup
+        android:id="@+id/redio_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_email"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="25dip"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/redio_boy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:checked="true"
+            android:text="@string/register_boy" />
+
+        <RadioButton
+            android:id="@+id/redio_girl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/register_girl" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/redio_group"
+        android:layout_alignRight="@id/redio_group"
+        android:layout_below="@id/redio_group"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/register_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dip"
+            android:layout_weight="0.5"
+            android:text="@string/register_return" />
+
+        <Button
+            android:id="@+id/register_bfinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/register_finish" />
+    </LinearLayout>
+
+</RelativeLayout>
